@@ -171,7 +171,7 @@ function handleMuaApp() {
         $('#footerHistoryPage').text("thêm mới mã trạm hoặc chọn trạm đã lưu");
 
         $('.workstation_access').removeClass("d-none");
-        // $('.workstation_category').removeClass("d-none");
+        $('.workstation_category').removeClass("d-none");
         $('.warranty_scansQRcode').addClass("d-none");
         $('.warranty_lot').addClass("d-none");
         $('.warranty_scanQRcode').addClass("d-none");

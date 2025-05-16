@@ -1,4 +1,6 @@
 var historyListDetail = $('#history-detail');
+var historyListCategoryDetail = $('#list-history-detail');
+var historyListCategoryAdd = $('#list-history-add');
 var checkTabHistory;
 var intervalId;
 async function pickApp(type) {
@@ -1088,6 +1090,179 @@ menuItems.forEach((item) => {
         // Close the sidebar after selection (optional)
         sidebar.removeClass("open");
     });
+});
+// danh mục
+$("#addCategory").click(function () {
+    OpenAddCategory()
+});
+
+function showHistoryCategory(type) {
+    historyItems = JSON.parse(localStorage.getItem('dataHistory'));
+    CategoryItems = JSON.parse(localStorage.getItem('listItemCategory'));
+    if (type) {
+        historyItems = historyItems.filter(item =>
+            item.CodeWorkStation.includes(type) ||
+            item.NameWorkStation.toLowerCase().includes(type)
+        );
+    }
+    if (CategoryItems) {
+        for (let i = 0; i < CategoryItems.length; i++) {
+            historyItems = historyItems.filter(item => item.CodeWorkStation != CategoryItems[i].CodeWorkStation);
+        }
+    }
+    if (historyItems) {
+        historyListCategoryDetail.empty();
+        for (let i = historyItems.length - 1; i >= 0; i--) {
+            addItemHistory(historyItems[i], 'category');
+        }
+    }
+}
+
+function handleItemCategoryClick(item) {
+    const itemHistory = { 'CodeWorkStation': item.CodeWorkStation, 'NameWorkStation': item.NameWorkStation, 'domain': item.domain, 'date': HOMEOSAPP.getCurrentTime(), 'workstationType': item.workstationType }
+    CategoryItems = JSON.parse(localStorage.getItem('listItemCategory'));
+    let filterItem = []
+    if (CategoryItems) {
+        filterItem = CategoryItems.filter(itemdetail => itemdetail.CodeWorkStation === item.CodeWorkStation);
+    }
+    if (filterItem.length > 0) {
+        CategoryItems = CategoryItems.filter(itemdetail => itemdetail.CodeWorkStation !== item.CodeWorkStation);
+        localStorage.setItem('listItemCategory', JSON.stringify(CategoryItems));
+
+        historyListCategoryAdd.empty();
+        for (let i = CategoryItems.length - 1; i >= 0; i--) {
+            addItemHistory(CategoryItems[i], 'add');
+        }
+    } else {
+        if (CategoryItems) {
+            CategoryItems = CategoryItems.filter(itemdetail => itemdetail.CodeWorkStation !== item.CodeWorkStation);
+            CategoryItems.push(itemHistory);
+            if (CategoryItems.length > 20) {
+                CategoryItems.shift();
+            }
+        } else {
+            CategoryItems = [];
+            CategoryItems.push(itemHistory);
+        }
+        localStorage.setItem('listItemCategory', JSON.stringify(CategoryItems));
+
+        if (CategoryItems && CategoryItems.length > 0) {
+            historyListCategoryAdd.empty();
+            for (let i = CategoryItems.length - 1; i >= 0; i--) {
+                addItemHistory(CategoryItems[i], 'add');
+            }
+        }
+    }
+    showHistoryCategory()
+}
+
+$("#saveCategory").click(function () {
+    saveCategory()
+});
+
+function saveCategory() {
+    const inputValue = $('#name-category').val();
+    if (inputValue) {
+        const item = JSON.parse(localStorage.getItem('listItemCategory'));
+        let itemCategory = { 'NameCategory': inputValue, 'itemCategory': item }
+        DataCategory = JSON.parse(localStorage.getItem('dataCategory'));
+        if (DataCategory) {
+            const checkInput = DataCategory.filter(item => item.NameCategory === inputValue);
+            if (checkInput.length > 0) {
+                const confirmEDIT = confirm(`Danh mục "${inputValue}" đã tồn tại, xác nhận có muốn thêm những trạm đã chọn chưa nằm trong danh mục hay không?`);
+                if (confirmEDIT) {
+                    itemCategory.itemCategory.forEach(item2 => {
+                        const exists = checkInput[0].itemCategory.some(item1 => item1.CodeWorkStation === item2.CodeWorkStation);
+                        if (!exists) {
+                            checkInput[0].itemCategory.push(item2);
+                        }
+                    });
+                    DataCategory = DataCategory.filter(item => item.NameCategory !== inputValue);
+                    DataCategory.push(checkInput[0]);
+                    localStorage.setItem('dataCategory', JSON.stringify(DataCategory));
+                    document.getElementById("list-category").classList.remove("d-none");
+                    document.getElementById("save-category").classList.add("d-none");
+                    $('#name-category').val('');
+                    $('#search-category').val('');
+                    localStorage.setItem('listItemCategory', JSON.stringify([]));
+                    historyListCategoryAdd.empty();
+                    showCategory()
+                }
+            } else if (item.length == 0) {
+                toastr.error("Vui lòng chọn trạm để thêm vào danh mục!");
+            } else {
+                if (DataCategory) {
+                    DataCategory.push(itemCategory);
+                    if (DataCategory.length > 20) {
+                        DataCategory.shift();
+                    }
+                } else {
+                    DataCategory = [];
+                    DataCategory.push(itemCategory);
+                }
+                localStorage.setItem('dataCategory', JSON.stringify(DataCategory));
+                document.getElementById("list-category").classList.remove("d-none");
+                document.getElementById("save-category").classList.add("d-none");
+                $('#name-category').val('');
+                $('#search-category').val('');
+                localStorage.setItem('listItemCategory', JSON.stringify([]));
+                historyListCategoryAdd.empty();
+                showCategory()
+            }
+        } else {
+            DataCategory = [];
+            DataCategory.push(itemCategory);
+            localStorage.setItem('dataCategory', JSON.stringify(DataCategory));
+            document.getElementById("list-category").classList.remove("d-none");
+            document.getElementById("save-category").classList.add("d-none");
+            $('#name-category').val('');
+            $('#search-category').val('');
+            localStorage.setItem('listItemCategory', JSON.stringify([]));
+            historyListCategoryAdd.empty();
+            showCategory()
+        }
+
+    } else {
+        toastr.error("Vui lòng nhập tên danh mục!");
+    }
+}
+
+$("#btnAddCategory").click(function () {
+    OpenAddCategory()
+});
+
+function showAddCategoryButton() {
+    const buttonHTML = $(
+        '<div class="col-12" style="margin-top: 10px; display: flex; justify-content: center; align-items: center;">' +
+        '<button id="addCategory" style="width: 200px; height: 200px; border-radius: 50%; border: 1px dashed #fff; background-color: #1E2833; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #fff; font-size: 14px; text-align: center;">' +
+        '<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" style="color: #fff; margin-bottom: 8px;" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">' +
+        '<path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>' +
+        '</svg>' +
+        'Tạo mới danh mục trạm.' +
+        '</button>' +
+        '</div>'
+    );
+    document.getElementById("btnAddCategory").classList.add("d-none");
+    buttonHTML.on('click', function () {
+
+        OpenAddCategory();
+    });
+    listCategory.append(buttonHTML);
+}
+
+$('#search-category').on('change', function () {
+    const searchValue = $(this).val().toLowerCase();
+    showHistoryCategory(searchValue)
+});
+
+$("#backCategory").click(function () {
+    $(".history-avt").removeClass("d-none");
+    document.getElementById("category-back").classList.add("d-none");
+    document.getElementById("list-category").classList.remove("d-none");
+    document.getElementById("save-category").classList.add("d-none");
+    document.getElementById("detail-category").classList.add("d-none");
+    showCategory();
+    historyListCategoryAdd.empty();
 });
 
 checkHeight();
