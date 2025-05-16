@@ -160,7 +160,7 @@ async function pickApp(type) {
 function handleMuaApp() {
     showElement("LoadScreen", "img-station");
     hideElement("pickApp");
-    $("#content-block").load("https://home-os-iot-smart.vercel.app/pages/History/history.html");
+    $("#content-block").load("https://son-la-hpc.vercel.app/pages/History/history.html");
     setTimeout(() => {
         hideElement("LoadScreen", "img-station");
         showElement("history");

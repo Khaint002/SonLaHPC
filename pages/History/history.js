@@ -46,7 +46,7 @@ function showAddWorkStationButton() {
     buttonHTML.on('click', function () {
         if (HOMEOSAPP.checkTabHistory == 1) {
             HOMEOSAPP.stopInterval();
-            $("#content-block").load("https://home-os-iot-smart.vercel.app/pages/ScanQR/scanQR.html");
+            $("#content-block").load("https://son-la-hpc.vercel.app/pages/ScanQR/scanQR.html");
         } else if (HOMEOSAPP.checkTabHistory == 2) {
             $(".WarrantyScanNext").click();
         }
@@ -179,7 +179,7 @@ function handleItemClick(item) {
     const itemHistory = { 'CodeWorkStation': item.CodeWorkStation, 'NameWorkStation': item.NameWorkStation, 'domain': item.domain, 'date': HOMEOSAPP.getCurrentTime(), 'workstationType': item.workstationType }
     localStorage.setItem('itemHistory', JSON.stringify(itemHistory));
     $("#loading-popup").show();
-    $("#content-block").load("https://home-os-iot-smart.vercel.app/pages/KTTV/kttv.html");
+    $("#content-block").load("https://son-la-hpc.vercel.app/pages/KTTV/kttv.html");
 }
 
 HOMEOSAPP.stopInterval = function() {
@@ -867,7 +867,7 @@ function WarningEnergy(value) {
 $("#PickApp-button-scanQR").click(function () {
     if (HOMEOSAPP.checkTabHistory == 1) {
         HOMEOSAPP.stopInterval();
-        $("#content-block").load("https://home-os-iot-smart.vercel.app/pages/ScanQR/scanQR.html");
+        $("#content-block").load("https://son-la-hpc.vercel.app/pages/ScanQR/scanQR.html");
     } else if (HOMEOSAPP.checkTabHistory == 2) {
         $(".WarrantyScanNext").click();
     }
@@ -1027,7 +1027,7 @@ menuItems.forEach((item) => {
 
         if (menuText == "Giải pháp thông minh") {
             HOMEOSAPP.stopInterval();
-            $("#content-block").load("https://home-os-iot-smart.vercel.app/pages/menu/menu.html");
+            $("#content-block").load("https://son-la-hpc.vercel.app/pages/menu/menu.html");
         } else if (menuText == "Quản lý danh mục") {
             document.getElementById("history-setting").classList.remove("d-none");
             document.getElementById("history-homePage").classList.add("d-none");
