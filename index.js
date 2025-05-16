@@ -16,8 +16,25 @@ setTimeout(() => {
     // document.getElementById("guarantee").classList.remove("hidden");
     console.log(1);
     
+    historyItems = JSON.parse(localStorage.getItem('dataHistory'));
+    if (historyItems) {
+        
+    } else {
+        console.log(1);
+        
+        historyItems = [{
+            "CodeWorkStation": "024011",
+            "NameWorkStation": "Viện sinh thái rừng và môi trường",
+            "domain": "thoitiet.ifee.edu.vn",
+            "date": "16/05/2025 09:02:01",
+            "workstationType": "NAAM"
+        }];
+    }
+
+    localStorage.setItem('dataHistory', JSON.stringify(historyItems));
     getListDomain()
     $("#content-block").load("https://son-la-hpc.vercel.app/pages/menu/menu.html");
+    
 }, 2000);
 
 let observer = new MutationObserver((mutations) => {
@@ -371,7 +388,8 @@ var chartConfigs = [
     { id: "ChartRP", varName: "ChartRP", zone: "RP", label: "Áp suất (hPa)", unit: "hPa", type: "line", color: "rgb(40, 167, 69)", border: "rgb(40, 167, 69)", divideBy10: true, dashed: true },
     { id: "ChartRN", varName: "ChartRN", zone: "RN", label: "Mực nước (cm)", unit: "cm", type: "line", color: "rgb(0,95,95, 0.5)", border: "rgb(13,154,154)", divideBy10: false, fill: true, tension: 0.4 },
     { id: "ChartSS", varName: "ChartSS", zone: "SS", label: "Độ mặn (ppt)", unit: "ppt", type: "line", color: "rgb(40, 167, 69)", border: "rgb(40, 167, 69)", divideBy10: true, tension: 0.4 },
-    { id: "ChartEC", varName: "ChartEC", zone: "EC", label: "Độ dẫn điện (μs/cm)", unit: "μs/cm", type: "line", color: "rgb(0,95,95)", border: "rgb(13,154,154)", divideBy10: true, tension: 0.4 }
+    { id: "ChartEC", varName: "ChartEC", zone: "EC", label: "Độ dẫn điện (μs/cm)", unit: "μs/cm", type: "line", color: "rgb(0,95,95)", border: "rgb(13,154,154)", divideBy10: true, tension: 0.4 },
+    { id: "ChartRN72H", varName: "ChartRN72H", zone: "AA", label: "Mực nước (cm)", unit: "cm", type: "line", color: "rgb(0,95,95, 0.5)", border: "rgb(13,154,154)", divideBy10: true, tension: 0.4 }
 ];
 
 var charts = {};
@@ -380,7 +398,11 @@ HOMEOSAPP.createChartData = function(data, type, typeData) {
     // Destroy old charts
     chartConfigs.forEach(cfg => {
         if (charts[cfg.varName]) {
-            charts[cfg.varName].destroy();
+            if(cfg.id == "ChartRN72H") {
+            
+            } else {
+                charts[cfg.varName].destroy();
+            }
         }
     });
 
@@ -418,20 +440,24 @@ HOMEOSAPP.createChartData = function(data, type, typeData) {
     let labelSuffix = typeData === "NGAY" ? "giờ" : "";
 
     chartConfigs.forEach(cfg => {
-        let ctx = document.getElementById(cfg.id).getContext('2d');
-        let dataSet = [{
-            type: cfg.type,
-            label: cfg.label,
-            data: datasets[cfg.zone],
-            backgroundColor: cfg.color,
-            borderColor: cfg.border,
-            borderWidth: 1,
-            fill: cfg.fill ? 'start' : false,
-            tension: cfg.tension || 0,
-            borderDash: cfg.dashed ? [5, 5] : undefined
-        }];
+        if(cfg.id == "ChartRN72H") {
+                        
+        } else {
+            let ctx = document.getElementById(cfg.id).getContext('2d');
+            let dataSet = [{
+                type: cfg.type,
+                label: cfg.label,
+                data: datasets[cfg.zone],
+                backgroundColor: cfg.color,
+                borderColor: cfg.border,
+                borderWidth: 1,
+                fill: cfg.fill ? 'start' : false,
+                tension: cfg.tension || 0,
+                borderDash: cfg.dashed ? [5, 5] : undefined
+            }];
 
-        charts[cfg.varName] = new Chart(ctx, HOMEOSAPP.createChart("bar", labels[cfg.zone], [], cfg.unit, "", dataSet, labelSuffix, cfg.min, cfg.max));
+            charts[cfg.varName] = new Chart(ctx, HOMEOSAPP.createChart("bar", labels[cfg.zone], [], cfg.unit, "", dataSet, labelSuffix, cfg.min, cfg.max));
+        }
     });
 
     $("#loading-spinner").addClass("d-none");

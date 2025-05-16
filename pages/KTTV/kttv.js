@@ -46,10 +46,10 @@ function checkTypeWorkstation() {
             $(`box-${type}`).classList.add("col-6");
         }
     });
-
     const item = JSON.parse(localStorage.getItem("itemHistory"));
     $("titleRT").textContent = "Nhiệt độ";
     $("titleChartRT").textContent = "biểu đồ nhiệt độ";
+    $(`chart-RN72H`).classList.add("d-none");
 
     switch (item.workstationType) {
         case "NAAM":
@@ -63,9 +63,19 @@ function checkTypeWorkstation() {
             ["RN"].forEach(type => {
                 $(`box-${type}`).classList.remove("d-none");
                 $(`chart-${type}`).classList.remove("d-none");
+                $(`chart-RN72H`).classList.remove("d-none");
                 $(`box-${type}`).classList.remove("col-6");
                 $(`box-${type}`).classList.add("col-12");
-            });
+                HOMEOSAPP.WorkstationStatistics(
+                    localStorage.getItem("URL"),
+                        "WORKSTATION_ID='"+localStorage.getItem("MATRAM")+"'", 
+                        "NotCentral"
+                    ).then(data => {
+                        renderChartRN72H(data);
+                    }).catch(error => {
+                        console.error("Lỗi lấy dữ liệu ChartRN72H:", error);
+                    });
+                });
             break;
 
         case "M":
@@ -82,6 +92,19 @@ function checkTypeWorkstation() {
             ["RN", "RT", "SS", "EC"].forEach(type => {
                 $(`box-${type}`).classList.remove("d-none");
                 $(`chart-${type}`).classList.remove("d-none");
+                $(`chart-RN72H`).classList.remove("d-none");
+                if(type == 'RN'){
+                    HOMEOSAPP.WorkstationStatistics(
+                        localStorage.getItem("URL"),
+                        "WORKSTATION_ID='"+localStorage.getItem("MATRAM")+"'", 
+                        "NotCentral"
+                    ).then(data => {
+                        renderChartRN72H(data);
+                    }).catch(error => {
+                        console.error("Lỗi lấy dữ liệu ChartRN72H:", error);
+                    });
+                }
+                
             });
 
             // $("box-SS").classList.remove("col-6");
@@ -92,6 +115,39 @@ function checkTypeWorkstation() {
             break;
     }
 }
+
+function renderChartRN72H(data) {
+    const cfg = chartConfigs.find(c => c.id === "ChartRN72H");
+    const labels = [];
+    const dataset = [];
+
+    data.forEach(item => {
+        labels.push(item.ZONE_NAME.slice(0, 5) + ' ' + item.ZONE_NAME.slice(11, 16) ); // thời gian
+        let value = cfg.divideBy10 ? item.ZONE_VALUE : item.ZONE_VALUE;
+        value = roundToTwoDecimals(value).toFixed(2);
+        dataset.push(value);
+    });
+    
+    const ctx = document.getElementById(cfg.id).getContext('2d');
+    const dataSet = [{
+        type: cfg.type,
+        label: cfg.label,
+        data: dataset,
+        backgroundColor: cfg.color,
+        borderColor: cfg.border,
+        borderWidth: 1,
+        fill: cfg.fill ? 'start' : false,
+        tension: cfg.tension || 0,
+        borderDash: cfg.dashed ? [5, 5] : undefined,
+        pointRadius: 0,
+        pointHoverRadius: 5
+    }];
+
+    if (charts[cfg.varName]) charts[cfg.varName].destroy();
+    charts[cfg.varName] = new Chart(ctx, HOMEOSAPP.createChart("line", labels, [], cfg.unit, "", dataSet, ""));
+}
+
+
 
 async function getDataMonitoring() {
     const data = await HOMEOSAPP.getNewData(
@@ -288,7 +344,7 @@ function handleNoRainVisual() {
 $(".homepage-Pre-pickApp").click(function () {
     HOMEOSAPP.stopInterval();
     stopIntervalMonitoring();
-    $("#content-block").load("https://son-la-hpc.vercel.app/pages/menu/menu.html");
+    $("#content-block").load("https://home-os-iot-smart.vercel.app/pages/menu/menu.html");
 });
 
 $("#share-qrcode-workstation").click(function () {
@@ -329,7 +385,7 @@ $("#BackCodeQR").click(function () {
 
 $(".ScanQRNext").click(function () {
     stopIntervalMonitoring()
-    $("#content-block").load("https://son-la-hpc.vercel.app/pages/History/history.html");
+    $("#content-block").load("https://home-os-iot-smart.vercel.app/pages/History/history.html");
 });
 
 $("#button-list-ngay").click(function () {
@@ -396,19 +452,30 @@ document.getElementById("dateTimeReport").addEventListener("change", function ()
 });
 
 $("#export-kttv").click(function () {
-    checkReport = 'KTTV';
-    getDevicefilter();
+    getDevicefilter('KTTV');
     renderOptions();
     $("#filter-kttv").removeClass("d-none");
     $("#filter-condition").addClass("d-none");
     $("#export-condition-popup").show();
 });
 
-const getDevicefilter = async function () {
-    if(checkReport == 'KTTV'){
+async function getDevicefilter(checkReporttext) {
+    if(checkReporttext == 'KTTV'){
         const data = JSON.parse(localStorage.getItem("itemHistory"));
         const dataDevice = await HOMEOSAPP.getDM("https://"+data.domain+"/service/service.svc", "DM_WORKSTATION_DEVICE", "WORKSTATION_ID='" + data.CodeWorkStation + "'", "NotCentral");
         const selectElement = $('#KTTV_Report');
+        selectElement.empty();
+
+        for (let i = 0; i < dataDevice.data.length; i++) {
+            const option = $('<option></option>'); // tạo option bằng jQuery
+            option.val(processCode(dataDevice.data[i].TRAN_NO));
+            option.text(dataDevice.data[i].DESCRIPTION);
+            selectElement.append(option); // dùng jQuery append
+        }
+    } else {
+        const data = JSON.parse(localStorage.getItem("itemHistory"));
+        const dataDevice = await HOMEOSAPP.getDM("https://"+data.domain+"/service/service.svc", "DM_WORKSTATION_DEVICE", "WORKSTATION_ID='" + data.CodeWorkStation + "'", "NotCentral");
+        const selectElement = $('#device_ID_alert');
         selectElement.empty();
 
         for (let i = 0; i < dataDevice.data.length; i++) {
@@ -481,7 +548,7 @@ function DateFormatServerToLocal(input, format) {
     return format.replace(/dd|mm|yyyy|yy|HH|MM|SS/g, (token) => map[token] || '');
 }
 
-const exportRepost = async function (type, startDate, endDate, reportType, isViewer) {
+async function exportRepost(type, startDate, endDate, reportType, isViewer) {
                 
     if (isViewer)
         this.IsViewer = isViewer;
@@ -599,7 +666,7 @@ const exportRepost = async function (type, startDate, endDate, reportType, isVie
     $.ajax(val);
 }
 
-const reportOptions = [
+var reportOptions = [
     { value: "CHANGE", text: "Tuỳ ý" },
     { value: "MONTH1", text: "Tháng 1" },
     { value: "MONTH2", text: "Tháng 2" },
@@ -713,6 +780,16 @@ function formatDate(date) {
     const dd = String(date.getDate()).padStart(2, '0');
     return `${yyyy}-${mm}-${dd}`;
 }
+
+$("#settingAlert").click(function () {
+    // if(DataUser){
+        getDevicefilter();
+        $("#alert-kttv-popup").show(); 
+    // } else {
+    //     toastr.error("Vui lòng liên kết tài khoản Zalo để sử dụng chức năng này.");
+    // }
+    
+});
 
 var xmlns = "http://www.w3.org/2000/svg",
 xlinkns = "http://www.w3.org/1999/xlink",
