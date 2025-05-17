@@ -210,14 +210,19 @@ function getDayMessage(type) {
         case "NNS":
             return 'RT-RN-SS-EC';
         case "TD":
-            return 'RD-TN-QV-QR';
+            return 'RN-TN-QV-QR';
+        case "NMLLTD":
+            return 'RN-RD-QN-VN';
         default:
             return "";
     }
 }
 
 function changeDataHomePage(data) {
-    if (!data || data.length === 0) return;
+    if (!data || data.length === 0) {
+        $('#loading-popup').hide(); 
+        return;
+    }
 
     const matram = localStorage.getItem('MATRAM');
     const itemw = JSON.parse(localStorage.getItem("itemHistory"));
@@ -290,9 +295,18 @@ function changeDataHomePage(data) {
                 checkRD = true;
                 updateText("QR", (ZONE_VALUE ).toFixed(2) + " m³/s");
                 break;
+            case "QN":
+                checkRD = true;
+                updateText("QN", (ZONE_VALUE /10).toFixed(2) + " m³/s");
+                break;
+            case "VN":
+                checkRD = true;
+                updateText("VN", (ZONE_VALUE /10).toFixed(2) + " m/s");
+                break;
         }
     });
-
+    console.log('chạy');
+    
     if (!checkRT) setRangeValue(0);
     if (!checkRD) handleNoRainVisual();
 
@@ -377,7 +391,7 @@ function handleNoRainVisual() {
 $(".homepage-Pre-pickApp").click(function () {
     HOMEOSAPP.stopInterval();
     stopIntervalMonitoring();
-    $("#content-block").load("https://home-os-iot-smart.vercel.app/pages/menu/menu.html");
+    $("#content-block").load("https://son-la-hpc.vercel.app/pages/menu/menu.html");
 });
 
 $("#share-qrcode-workstation").click(function () {
@@ -418,7 +432,7 @@ $("#BackCodeQR").click(function () {
 
 $(".ScanQRNext").click(function () {
     stopIntervalMonitoring()
-    $("#content-block").load("https://home-os-iot-smart.vercel.app/pages/History/history.html");
+    $("#content-block").load("https://son-la-hpc.vercel.app/pages/History/history.html");
 });
 
 $("#button-list-ngay").click(function () {

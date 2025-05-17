@@ -362,6 +362,10 @@ async function showHistory(type) {
                     option.value = cat;
                     option.text = "Trạm Mưa";
                     break;
+                case "MSL":
+                    option.value = cat;
+                    option.text = "Trạm Mưa Sơn La";
+                    break;
                 case "MS":
                     option.value = cat;
                     option.text = "Trạm Mưa, sóng";
@@ -369,6 +373,14 @@ async function showHistory(type) {
                 case "NNS":
                     option.value = cat;
                     option.text = "Trạm mặn, nhiệt, mực nước";
+                    break;
+                case "TD":
+                    option.value = cat;
+                    option.text = "Hồ chứa";
+                    break;
+                case "NMLLTD":
+                    option.value = cat;
+                    option.text = "Trạm Nước, mưa, lưu lượng, tốc độ";
                     break;
                 case "ALL":
                     option.value = cat;
@@ -423,6 +435,16 @@ function getDisplayValue(item, type) {
         case "MS":
             return item.ZONE_VALUE / 10 + " mm";
         case "NNS":
+            if (ZONE_PROPERTY_NNS === "SS") {
+                return (item.ZONE_VALUE / 10000).toFixed(2) + ZONE_UNIT_NNS;
+            } else if (ZONE_PROPERTY_NNS === "EC") {
+                return (item.ZONE_VALUE / 1000).toFixed(2) + ZONE_UNIT_NNS;
+            } else if(ZONE_PROPERTY_NNS === "RN") {
+                return item.ZONE_VALUE + ZONE_UNIT_NNS;
+            } else {
+                return item.ZONE_VALUE / 10 + ZONE_UNIT_NNS;
+            }
+        case "TD":
             if (ZONE_PROPERTY_NNS === "SS") {
                 return (item.ZONE_VALUE / 10000).toFixed(2) + ZONE_UNIT_NNS;
             } else if (ZONE_PROPERTY_NNS === "EC") {
@@ -566,6 +588,8 @@ function getFieldsByType(type) {
             return ['RD'];
         case "NNS":
             return ['RT', 'RN', 'SS', 'EC'];
+        case "TD":
+            return ['RN', 'TN', 'QV', 'QR'];
         default:
             return [];
     }
@@ -579,7 +603,12 @@ var defaultValues = {
     RP: '0hPa',  // Áp suất
     RN: '0mm',   // Mưa
     SS: '0w',    // Ánh sáng/Năng lượng
-    EC: '0mS/cm' // Độ dẫn điện
+    EC: '0mS/cm', // Độ dẫn điện
+    TN: 'tr.m³',
+    QV: 'm³/s', 
+    QR: 'm³/s', 
+    QN: 'm³/s', 
+    VN: 'm/s', 
 };
 
 function generatePopupHTML(name, code, type, item) {
@@ -597,6 +626,11 @@ function generatePopupHTML(name, code, type, item) {
             case 'RN': label = 'Mực nước'; break;
             case 'SS': label = 'Độ mặn'; break;
             case 'EC': label = 'Độ dẫn điện'; break;
+            case 'TN': label = 'Dung tích'; break;
+            case 'QV': label = 'Lưu lượng đến'; break;
+            case 'QR': label = 'Lưu lượng xả'; break;
+            case 'QN': label = 'Lưu lượng nước'; break;
+            case 'VN': label = 'Tốc độ dòng chảy'; break;
         }
 
         dynamicRows += `
@@ -664,6 +698,22 @@ function generatePopupValueHTML(loc) {
                 <tr><td><b>Nhiệt độ: ${WarningTemperature(loc.RT)} °C</b></td></tr>
                 <tr><td><b>Độ mặn: ${loc.SS ?? 0} ppt</b></td></tr>
                 <tr><td><b>Độ dẫn điện: ${loc.EC ?? 0} μs/cm</b></td></tr>
+            `;
+            break;
+        case "TD":
+            extraContent = `
+                <tr><td>Mực nước: ${loc.RN ?? 0} cm</td></tr>
+                <tr><td><b>Dung tích: ${loc.TN ?? 0} tr.m³</b></td></tr>
+                <tr><td><b>Lưu lượng đến: ${loc.QV ?? 0} m³/s</b></td></tr>
+                <tr><td><b>Lưu lượng xả: ${loc.QR ?? 0} m³/s</b></td></tr>
+            `;
+            break;
+        case "NMLLTD":
+            extraContent = `
+                <tr><td>Mực nước: ${loc.RN ?? 0} cm</td></tr>
+                <tr><td><b>Lượng mưa: ${loc.RD ?? 0} tr.m³</b></td></tr>
+                <tr><td><b>Lưu lượng nước: ${loc.QN ?? 0} m³/s</b></td></tr>
+                <tr><td><b>Tốc độ dòng chảy: ${loc.VN ?? 0} m³/s</b></td></tr>
             `;
             break;
         default:
@@ -745,6 +795,7 @@ function updatePopupData(code, newZoneData) {
             $(".marker-label-"+code).text(newZoneData.RN)
             mergedData.RN = parseValue(newZoneData.RN); // Lượng mưa
             break;
+        case "MSL":
         case "M":
         case "MS":
             if(newZoneData.RD){
@@ -760,6 +811,18 @@ function updatePopupData(code, newZoneData) {
             mergedData.RN = parseValue(newZoneData.RN);
             mergedData.SS = parseValue(newZoneData.SS);
             mergedData.EC = parseValue(newZoneData.EC);
+            break;
+        case "TD":
+            mergedData.RN = parseValue(newZoneData.RN);
+            mergedData.TN = parseValue(newZoneData.TN);
+            mergedData.QV = parseValue(newZoneData.QV);
+            mergedData.QR = parseValue(newZoneData.QR);
+            break;
+        case "NMLLTD":
+            mergedData.RN = parseValue(newZoneData.RN);
+            mergedData.RD = parseValue(newZoneData.RD);
+            mergedData.QN = parseValue(newZoneData.QN);
+            mergedData.VN = parseValue(newZoneData.VN);
             break;
         default:
             console.warn(`Không biết cách update cho type: ${oldData.type}`);
@@ -816,6 +879,11 @@ function processAndUpdate(data) {
         if (item.RN != null) formattedData.RN = (item.RN) + "cm"; // Mực nước
         if (item.SS != null) formattedData.SS = (item.SS / 10000).toFixed(2) + "ppt"; // Độ mặn
         if (item.EC != null) formattedData.EC = (item.EC / 1000).toFixed(2) + "μs/cm"; // Độ dẫn điện
+        if (item.TN != null) formattedData.TN = (item.TN).toFixed(2) + "tr.m³"; // dung tích hồ chứa
+        if (item.QV != null) formattedData.QV = (item.QV).toFixed(2) + "m³/s"; // Lưu lượng đến
+        if (item.QR != null) formattedData.QR = (item.QR).toFixed(2) + "m³/s"; // Lưu lượng xả
+        if (item.QN != null) formattedData.QN = (item.QN).toFixed(2) + "m³/s"; // Lưu lượng nước
+        if (item.VN != null) formattedData.VN = (item.VN).toFixed(2) + "m/s"; // tốc độ dòng chảy
 
         formattedData.lastTime = dateTimeRA;
         
@@ -837,7 +905,6 @@ function WarningRain(value) {
     if (value >= 200 && value < 300) energy = "<b><font color='#99004d'>" + value + "mm</font></b>";
     if (value >= 300 && value < 400) energy = "<b><font color='#7b7b7b'>" + value + "mm</font></b>";
     if (value >= 400) energy = "<b><font color='#A00BA0'>" + value + "mm</font></b>";
-    console.log(energy);
     
     return energy;
 }

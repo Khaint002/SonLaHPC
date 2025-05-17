@@ -241,6 +241,7 @@ HOMEOSAPP.getNewData = function (workstation, c, url) {
             success: function (msg) {
                 try {
                     let state = JSON.parse(msg);
+                    console.log(state.D);
                     resolve(state); // Trả về dữ liệu khi thành công
                 } catch (error) {
                     reject(error); // Bắt lỗi nếu JSON parse thất bại
@@ -392,6 +393,8 @@ var chartConfigs = [
     { id: "ChartTN", varName: "ChartTN", zone: "TN", label: "dung tích (tr.m³)", unit: "tr.m³", type: "line", color: "rgb(0,95,95)", border: "rgb(13,154,154)", divideBy10: true, tension: 0.4 },
     { id: "ChartQV", varName: "ChartQV", zone: "QV", label: "Lưu lượng đến (m³/S)", unit: "m³/S", type: "line", color: "rgb(0,95,95)", border: "rgb(13,154,154)", divideBy10: true, tension: 0.4 },
     { id: "ChartQR", varName: "ChartQR", zone: "QR", label: "Lưu lượng xả (m³/S)", unit: "m³/S", type: "line", color: "rgb(0,95,95)", border: "rgb(13,154,154)", divideBy10: true, tension: 0.4 },
+    { id: "ChartQN", varName: "ChartQN", zone: "QN", label: "Lưu lượng nước (m³/S)", unit: "m³/S", type: "line", color: "rgb(0,95,95)", border: "rgb(13,154,154)", divideBy10: true, tension: 0.4 },
+    { id: "ChartVN", varName: "ChartVN", zone: "VN", label: "Tốc độ dòng chảy (m/S)", unit: "m/S", type: "line", color: "rgb(0,95,95)", border: "rgb(13,154,154)", divideBy10: true, tension: 0.4 },
     { id: "ChartRN72H", varName: "ChartRN72H", zone: "AA", label: "Mực nước (cm)", unit: "cm", type: "line", color: "rgb(0,95,95, 0.5)", border: "rgb(13,154,154)", divideBy10: true, tension: 0.4 }
 ];
 
@@ -446,6 +449,7 @@ HOMEOSAPP.createChartData = function(data, type, typeData) {
         if(cfg.id == "ChartRN72H") {
                         
         } else {
+            console.log(cfg.id);
             let ctx = document.getElementById(cfg.id).getContext('2d');
             let dataSet = [{
                 type: cfg.type,
