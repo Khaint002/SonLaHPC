@@ -445,6 +445,16 @@ function getDisplayValue(item, type) {
                 return item.ZONE_VALUE / 10 + ZONE_UNIT_NNS;
             }
         case "TD":
+            if (ZONE_PROPERTY === "SS") {
+                return (item.ZONE_VALUE / 10000).toFixed(2) + ZONE_UNIT_NNS;
+            } else if (ZONE_PROPERTY_NNS === "EC") {
+                return (item.ZONE_VALUE / 1000).toFixed(2) + ZONE_UNIT_NNS;
+            } else if(ZONE_PROPERTY_NNS === "RN") {
+                return item.ZONE_VALUE + ZONE_UNIT_NNS;
+            } else {
+                return item.ZONE_VALUE / 10 + ZONE_UNIT_NNS;
+            }
+        case "TD":
             if (ZONE_PROPERTY_NNS === "SS") {
                 return (item.ZONE_VALUE / 10000).toFixed(2) + ZONE_UNIT_NNS;
             } else if (ZONE_PROPERTY_NNS === "EC") {
@@ -582,14 +592,16 @@ function getFieldsByType(type) {
             return ['RD', 'RT', 'RH', 'RP'];
         case "N":
             return ['RN'];
+        case "MSL":
         case "M":
-            return ['RD'];
         case "MS":
             return ['RD'];
         case "NNS":
             return ['RT', 'RN', 'SS', 'EC'];
         case "TD":
             return ['RN', 'TN', 'QV', 'QR'];
+        case "NMLLTD":
+            return ['RN', 'RD', 'QN', 'VN'];
         default:
             return [];
     }
