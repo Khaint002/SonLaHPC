@@ -160,12 +160,12 @@ async function pickApp(type) {
 // ✅ Các hàm xử lý riêng
 function handleMuaApp() {
     // showElement("LoadScreen", "img-station");
-    $('#loading-popup').hide();
+    $('#loading-popup').show();
     hideElement("pickApp");
     $("#content-block").load("https://son-la-hpc.vercel.app/pages/History/history.html");
     setTimeout(() => {
         // hideElement("LoadScreen", "img-station");
-        $('#loading-popup').show();
+        $('#loading-popup').hide();
         showElement("history");
         $('#NameHistoryPage').text("Quan trắc:")
         $('#descHistoryPage').text("Lịch sử truy cập")
