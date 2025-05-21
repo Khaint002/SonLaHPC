@@ -877,6 +877,7 @@ $("#truycap").click(function () {
 async function getInputValue(checkW) {
     var inputValue = document.getElementById("device_name").value;
     if(checkW){
+        console.log(checkW);
         $("#loading-popup").show();
         CheckWorkStation(checkW);
     } else {
@@ -946,7 +947,8 @@ $("#PickApp-button-pick").click(function () {
 
 $("#tab-scan-qr").click(function (event) {
     if(window.workstationID){
-        getInputValue()
+        openTab(event, 'tab1');
+        getInputValue(window.workstationID);
     } else {
         openTab(event, 'tab1')
     }
