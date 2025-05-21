@@ -874,13 +874,18 @@ $("#truycap").click(function () {
     getInputValue()
 });
 
-async function getInputValue() {
+async function getInputValue(checkW) {
     var inputValue = document.getElementById("device_name").value;
-    if (inputValue == null || inputValue == "") {
-        toastr.error("Vui lòng nhập mã trạm!");
+    if(checkW){
+        $("#loading-popup").show();
+        CheckWorkStation(checkW);
     } else {
-        $("#loading-popup").show()
-        CheckWorkStation(inputValue)
+        if (inputValue == null || inputValue == "") {
+            toastr.error("Vui lòng nhập mã trạm!");
+        } else {
+            $("#loading-popup").show()
+            CheckWorkStation(inputValue)
+        }
     }
 }
 
@@ -940,7 +945,12 @@ $("#PickApp-button-pick").click(function () {
 });
 
 $("#tab-scan-qr").click(function (event) {
-    openTab(event, 'tab1')
+    if(window.workstationID){
+        getInputValue()
+    } else {
+        openTab(event, 'tab1')
+    }
+    
 });
 $("#tab-text").click(function (event) {
     openTab(event, 'tab2')

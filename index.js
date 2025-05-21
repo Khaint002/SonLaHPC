@@ -14,14 +14,8 @@ setTimeout(() => {
     document.getElementById("LogoLoadScreen").classList.add("hidden");
     // document.getElementById("pickApp").classList.remove("hidden");
     // document.getElementById("guarantee").classList.remove("hidden");
-    console.log(1);
-    
     historyItems = JSON.parse(localStorage.getItem('dataHistory'));
-    if (historyItems) {
-        
-    } else {
-        console.log(1);
-        
+    if (!historyItems){
         historyItems = [{
             "CodeWorkStation": "024011",
             "NameWorkStation": "Viện sinh thái rừng và môi trường",
@@ -30,10 +24,32 @@ setTimeout(() => {
             "workstationType": "NAAM"
         }];
     }
+    
+    if(window.workstationID){
+        // $('#nameHistory').addClass("d-none");
+        // $('#nameHistory').removeClass("d-flex");
+        // $('#listTabMap').removeClass("d-none");
+        // $('#NameHistoryPage').text("Quan trắc:")
+        // $('#descHistoryPage').text("Lịch sử truy cập")
+        // $('#historySelect').removeClass("d-none");
+        // $('#footerHistoryPage').text("thêm mới mã trạm hoặc chọn trạm đã lưu");
 
-    localStorage.setItem('dataHistory', JSON.stringify(historyItems));
-    getListDomain()
-    $("#content-block").load("https://son-la-hpc.vercel.app/pages/menu/menu.html");
+        // $('.workstation_access').removeClass("d-none");
+        // $('.workstation_category').removeClass("d-none");
+        // $('.warranty_scansQRcode').addClass("d-none");
+        // $('.warranty_lot').addClass("d-none");
+        // $('.warranty_scanQRcode').addClass("d-none");
+        checkTabHistory = 1;
+
+        getInputValue(window.workstationID);
+        // document.getElementById("pickApp").classList.add("hidden");
+        // document.getElementById("history").classList.add("hidden");
+        $("#content-block").load("https://son-la-hpc.vercel.app/pages/ScanQR/scanQR.html");
+    } else {
+        localStorage.setItem('dataHistory', JSON.stringify(historyItems));
+        $("#content-block").load("https://son-la-hpc.vercel.app/pages/menu/menu.html");
+    }
+    
     
 }, 2000);
 
@@ -71,7 +87,7 @@ async function getListDomain() {
         HOMEOSAPP.listDomain.push(datatest.data[i].DOMAIN);
     }
 }
-
+getListDomain()
 
 HOMEOSAPP.getDM = async function (url, table_name, c, check) {
     let user_id_getDm = 'admin';
