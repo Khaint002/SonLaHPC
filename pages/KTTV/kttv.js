@@ -596,7 +596,7 @@ function DateFormatServerToLocal(input, format) {
 }
 
 async function exportRepost(type, startDate, endDate, reportType, isViewer) {
-                
+    let checkReport = 'KTTV'
     if (isViewer)
         this.IsViewer = isViewer;
     // startLoading();
