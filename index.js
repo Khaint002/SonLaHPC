@@ -89,7 +89,7 @@ async function getListDomain() {
         HOMEOSAPP.listDomain.push(datatest.data[i].DOMAIN);
     }
 }
-getListDomain()
+
 
 HOMEOSAPP.getDM = async function (url, table_name, c, check) {
     let user_id_getDm = 'admin';
@@ -146,7 +146,7 @@ HOMEOSAPP.getDM = async function (url, table_name, c, check) {
         });
     });
 }
-
+getListDomain();
 HOMEOSAPP.add = async function (table, data, URL, check) {
     // const d = {Uid: "vannt", Sid:'3d798037-9bd9-4195-8673-a4794547d2fd', tablename:table, jd:JSON.stringify(data), ex:''};
     let user_id_getDm = 'admin';
