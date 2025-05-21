@@ -2,7 +2,7 @@ var HOMEOSAPP = {};
 HOMEOSAPP.application = "";
 var typeQR;
 HOMEOSAPP.listDomain = [];
-var checkTabHistory = 0;
+HOMEOSAPP.checkTabHistory = 0;
 var checkReport = '';
 let historyStack = ['pickApp'];
 var UserID = localStorage.getItem("userID");
@@ -26,6 +26,7 @@ setTimeout(() => {
     }
     
     if(window.workstationID){
+        HOMEOSAPP.application = "KTTV";
         HOMEOSAPP.checkTabHistory = 1;
         $("#content-block").load("https://son-la-hpc.vercel.app/pages/ScanQR/scanQR.html");
     } else {
