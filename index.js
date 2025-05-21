@@ -83,7 +83,9 @@ if (typeof HomeOS !== 'undefined') {
 
 async function getListDomain() {
     const datatest = await HOMEOSAPP.getDM("https://central.homeos.vn/service_XD/service.svc", 'WARRANTY_SERVICE', "1=1");
+    console.log(datatest.data);
     for (let i = 0; i < datatest.data.length; i++) {
+        
         HOMEOSAPP.listDomain.push(datatest.data[i].DOMAIN);
     }
 }
