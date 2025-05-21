@@ -3,6 +3,7 @@ HOMEOSAPP.application = "";
 var typeQR;
 HOMEOSAPP.listDomain = [];
 HOMEOSAPP.checkTabHistory = 0;
+HOMEOSAPP.UserID = localStorage.getItem("userID");
 var checkReport = '';
 let historyStack = ['pickApp'];
 var UserID = localStorage.getItem("userID");
@@ -34,8 +35,61 @@ setTimeout(() => {
         $("#content-block").load("https://son-la-hpc.vercel.app/pages/menu/menu.html");
     }
     
-    
 }, 2000);
+
+HOMEOSAPP.handleUser = async function (type) {
+    if (UserID) {
+        try {
+            if (DataUser && DataUser.id === UserID) {
+                if(type == "home"){
+                    document.getElementById("PickApp-button-login").classList.add("d-none");
+                    document.getElementById("LogoPickScreen").style.paddingTop = "10vh";
+                } else {
+                    $(".userName").text(DataUser.name);
+                    $(".userAvt").attr("src", DataUser.avatar);
+                }
+                const dataUserResponse = await HOMEOSAPP.getDM("https://central.homeos.vn/service_XD/service.svc", "WARRANTY_USER", "USER_ID='" + UserID + "'");
+                console.log(dataUserResponse.data);
+                if (dataUserResponse.data.length == 0) {
+                    const willInsertData = {
+                        USER_ID: DataUser.id,
+                        USER_NAME: DataUser.name,
+                        USER_ROLE: "GUEST",
+                        DATE_CREATE: new Date(),
+                        DATASTATE: "ADD",
+                    };
+                    add('WARRANTY_USER', willInsertData);
+                    localStorage.setItem('RoleUser', "GUEST");
+                } else {
+                    console.log(dataUserResponse);
+                    localStorage.setItem('RoleUser', dataUserResponse.data[0].USER_ROLE);
+                }
+            } else if (DataUser != undefined) {
+                const dataUserResponse = await getDM("https://central.homeos.vn/service_XD/service.svc", "WARRANTY_USER", "USER_ID='" + UserID + "'");
+                console.log(dataUserResponse.data);
+                if (dataUserResponse.data.length == 0) {
+                    const willInsertData = {
+                        USER_ID: DataUser.id,
+                        USER_NAME: DataUser.name,
+                        USER_ROLE: "GUEST",
+                        DATE_CREATE: new Date(),
+                        DATASTATE: "ADD",
+                    };
+                    add('WARRANTY_USER', willInsertData);
+                }
+            } else {
+                localStorage.setItem('RoleUser', 'GUEST');
+            }
+        } catch (error) {
+            console.error("Error fetching user data:", error);
+        }
+    } else {
+        // localStorage.setItem('RoleUser', 'GUEST');
+        document.getElementById("QUYEN").classList.add("d-none");
+        document.getElementById("LogoPickScreen").style.paddingTop = "10vh";
+    }
+    WarrantyCheckUser(localStorage.getItem("RoleUser"));
+}
 
 let observer = new MutationObserver((mutations) => {
     mutations.forEach((mutation) => {

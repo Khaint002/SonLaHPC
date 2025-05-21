@@ -4,8 +4,8 @@ var historyListCategoryAdd = $('#list-history-add');
 var checkTabHistory;
 var intervalId;
 async function pickApp(type) {
-    console.log(1);
     showAddWorkStationButton();
+    HOMEOSAPP.handleUser("scan");
     switch (type) {
         case 'KTTV':
             HOMEOSAPP.application = "KTTV";

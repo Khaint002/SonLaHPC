@@ -104,7 +104,7 @@ function renderApps(apps, containerId) {
         container.innerHTML += html;
     });
 }
-handleUser();
+HOMEOSAPP.handleUser("home");
 renderApps(apps, "app-list");
 $("#PickApp-button-login").click(function () {
     pickApp('LOGIN');
