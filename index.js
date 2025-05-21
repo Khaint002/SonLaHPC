@@ -718,6 +718,11 @@ function sha1Encode(message) {
     return sha1hash.toLowerCase();
 }
 
+$("#share-workStation").click(function () {
+    const item = JSON.parse(localStorage.getItem("itemHistory"));
+    window.shareWorkStation("Trạm quan trắc "+ item.NameWorkStation, 'https://central.homeos.vn/images/MiniAppLoadingScreen.png', item.CodeWorkStation);
+});
+
 $("#result-scanagain").click(function () {
     document.getElementById("result-form-total").classList.add("d-none");
     document.getElementById("result-form-loading").classList.remove("d-none");

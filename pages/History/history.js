@@ -11,7 +11,6 @@ async function pickApp(type) {
             HOMEOSAPP.application = "KTTV";
             checkTabHistory = 1;
             showHistory();
-            
             break;
 
         case 'HISTORY':
