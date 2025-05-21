@@ -41,7 +41,7 @@ setTimeout(() => {
         // $('.warranty_scanQRcode').addClass("d-none");
         checkTabHistory = 1;
 
-        getInputValue(window.workstationID);
+        // getInputValue(window.workstationID);
         // document.getElementById("pickApp").classList.add("hidden");
         // document.getElementById("history").classList.add("hidden");
         $("#content-block").load("https://son-la-hpc.vercel.app/pages/ScanQR/scanQR.html");
