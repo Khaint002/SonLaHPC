@@ -26,24 +26,7 @@ setTimeout(() => {
     }
     
     if(window.workstationID){
-        // $('#nameHistory').addClass("d-none");
-        // $('#nameHistory').removeClass("d-flex");
-        // $('#listTabMap').removeClass("d-none");
-        // $('#NameHistoryPage').text("Quan trắc:")
-        // $('#descHistoryPage').text("Lịch sử truy cập")
-        // $('#historySelect').removeClass("d-none");
-        // $('#footerHistoryPage').text("thêm mới mã trạm hoặc chọn trạm đã lưu");
-
-        // $('.workstation_access').removeClass("d-none");
-        // $('.workstation_category').removeClass("d-none");
-        // $('.warranty_scansQRcode').addClass("d-none");
-        // $('.warranty_lot').addClass("d-none");
-        // $('.warranty_scanQRcode').addClass("d-none");
-        checkTabHistory = 1;
-
-        // getInputValue(window.workstationID);
-        // document.getElementById("pickApp").classList.add("hidden");
-        // document.getElementById("history").classList.add("hidden");
+        HOMEOSAPP.checkTabHistory = 1;
         $("#content-block").load("https://son-la-hpc.vercel.app/pages/ScanQR/scanQR.html");
     } else {
         localStorage.setItem('dataHistory', JSON.stringify(historyItems));
