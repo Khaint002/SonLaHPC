@@ -18,12 +18,20 @@ setTimeout(() => {
     historyItems = JSON.parse(localStorage.getItem('dataHistory'));
     if (!historyItems){
         historyItems = [{
-            "CodeWorkStation": "024011",
-            "NameWorkStation": "Viện sinh thái rừng và môi trường",
-            "domain": "thoitiet.ifee.edu.vn",
-            "date": "16/05/2025 09:02:01",
-            "workstationType": "NAAM"
-        }];
+                "CodeWorkStation": "025001",
+                "NameWorkStation": "Kẻng Mỏ",
+                "domain": "sonlahpc.hymetco.com",
+                "date": "22/05/2025 10:18:18",
+                "workstationType": "NMLLTD"
+            },
+            {
+                "CodeWorkStation": "025002",
+                "NameWorkStation": "Nậm Mu",
+                "domain": "sonlahpc.hymetco.com",
+                "date": "22/05/2025 14:29:47",
+                "workstationType": "NMLLTD"
+            }
+        ];
     }
     
     if(window.workstationID){
@@ -34,7 +42,6 @@ setTimeout(() => {
         localStorage.setItem('dataHistory', JSON.stringify(historyItems));
         $("#content-block").load("https://son-la-hpc.vercel.app/pages/menu/menu.html");
     }
-    
 }, 2000);
 
 HOMEOSAPP.handleUser = async function (type) {

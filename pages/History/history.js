@@ -508,14 +508,21 @@ function addMarkers(locations, mapContainerId) {
     if (map) {
         map.remove(); // Xóa bản đồ cũ
     }
+    //[20.304373, 100.256392], [24.353953, 108.614381]
     const bounds = L.latLngBounds(
-        L.latLng(8.2, 102.1),  // Góc dưới trái
-        L.latLng(23.4, 110.0)  // Góc trên phải
+        L.latLng(20.3, 100.2),  // Góc dưới trái
+        L.latLng(23.3, 105.6)  // Góc trên phải
     );
+    // const bounds = L.latLngBounds(
+    //     L.latLng(8.2, 102.1),  // Góc dưới trái
+    //     L.latLng(23.4, 110.0)  // Góc trên phải
+    // );
     map = L.map(mapContainerId, {
         maxBounds: bounds,       // Giới hạn vùng
         maxBoundsViscosity: 1.0,
-    }).setView([16.4501, 105.5234], 6);
+        minZoom: 7,   
+        maxZoom: 19,
+    }).setView([21.8, 103], 7);
 
     map.on('moveend', function () {
         if (!bounds.contains(map.getCenter())) {
@@ -523,40 +530,74 @@ function addMarkers(locations, mapContainerId) {
         }
     });
 
-    map.on('zoomend', function () {
-        if (!bounds.contains(map.getBounds().getNorthWest()) || !bounds.contains(map.getBounds().getSouthEast())) {
-            map.fitBounds(bounds, { animate: true });
-        }
-    });
+    // map.on('zoomend', function () {
+    //     if (!bounds.contains(map.getBounds().getNorthWest()) || !bounds.contains(map.getBounds().getSouthEast())) {
+    //         map.fitBounds(bounds, { animate: true });
+    //     }
+    // });
 
     const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19
     }).addTo(map);
+
+    
+    
     locations.forEach(loc => {
         let typeName = '';
         if(loc.type == "N"){
             typeName = 'N';
-        } else if(loc.type == "M" || loc.type == "MS"){
+        } else if(loc.type == "M" || loc.type == "MS" || loc.type == "MSL" ){
             typeName = 'R';
+        } else if(loc.type == "NMLLTD"){
+            typeName = 'Q';
+        } else if(loc.type == "TD"){
+            typeName = 'N';
         }
-        const customHTML = `
-            <div class="marker-wrapper marker-${loc.code}">
-                <div class="marker-label marker-label-${loc.code}" style="font-size: 13px;"></div>
-                <svg class="marker-pin" viewBox="0 0 24 24">
-                    <path d="M12 0C8.1 0 5 3.1 5 7c0 5.3 7 13 7 13s7-7.7 7-13c0-3.9-3.1-7-7-7z" fill="#4285f4" stroke="rgb(66, 133, 244)" stroke-width="2"/>
-                    <circle cx="12" cy="8.5" r="3.5" fill="white"/>
-                </svg>
-                <div class="mePin-wrapper">
-                    <div class="mePin-child">
-                        <b>${typeName}</b>
-                        <svg id="mePin" xmlns="http://www.w3.org/2000/svg" width="33.3" height="32.4" viewBox="0 0 43.3 42.4">
-                            <path class="ring_outer mePin bounceInDown" fill="#dc3545" d="M28.6 23c6.1 1.4 10.4 4.4 10.4 8 0 4.7-7.7 8.6-17.3 8.6-9.6 0-17.4-3.9-17.4-8.6 0-3.5 4.2-6.5 10.3-7.9.7-.1-.4-1.5-1.3-1.3C5.5 23.4 0 27.2 0 31.7c0 6 9.7 10.7 21.7 10.7s21.6-4.8 21.6-10.7c0-4.6-5.7-8.4-13.7-10-.8-.2-1.8 1.2-1 1.4z"></path>
-                            <path class="ring_inner" fill="#dc3545" d="M27 25.8c2 .7 3.3 1.8 3.3 3 0 2.2-3.7 3.9-8.3 3.9-4.6 0-8.3-1.7-8.3-3.8 0-1 .8-1.9 2.2-2.6.6-.3-.3-2-1-1.6-2.8 1-4.6 2.7-4.6 4.6 0 3.2 5.1 5.7 11.4 5.7 6.2 0 11.3-2.5 11.3-5.7 0-2-2.1-3.9-5.4-5-.7-.1-1.2 1.3-.7 1.5z"></path>
-                        </svg>
+        
+        let customHTML = "";
+        if(loc.type == "MSL"){
+            customHTML= `
+                <div class="marker-wrapper marker-${loc.code}">
+                    <div class="marker-label marker-label-${loc.code}" style="font-size: 13px;"></div>
+                    <svg class="marker-pin" viewBox="0 0 24 24">
+                        <path d="M12 0C8.1 0 5 3.1 5 7c0 5.3 7 13 7 13s7-7.7 7-13c0-3.9-3.1-7-7-7z" fill="#4285f4" stroke="rgb(66, 133, 244)" stroke-width="2"/>
+                    </svg>
+                    <div class="mePin-wrapper">
+                        <div class="mePin-child">
+                            <b>${typeName}</b>
+                        </div>
                     </div>
                 </div>
-            </div>
-        `;
+            `;
+        } else if(loc.type == "NMLLTD"){
+            customHTML= `
+                <div class="marker-wrapper marker-${loc.code}">
+                    <div class="marker-label marker-label-${loc.code}" style="font-size: 13px;"></div>
+                    <svg class="marker-pin" viewBox="0 0 24 24" width="18" height="24" xmlns="http://www.w3.org/2000/svg">
+                        <polygon points="12,20 4,6 20,6" fill="#ff2d00" stroke="#ff2d00" stroke-width="1" />
+                    </svg>
+                    <div class="mePin-wrapper">
+                        <div class="mePin-child">
+                            <b>${typeName}</b>
+                        </div>
+                    </div>
+                </div>
+            `;
+        } else if(loc.type == "TD"){
+            customHTML= `
+                <div class="marker-wrapper marker-${loc.code}">
+                    <div class="marker-label marker-label-${loc.code}" style="font-size: 13px;"></div>
+                    <svg class="marker-pin" viewBox="0 0 24 24" width="16" height="16" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="6" y="6" width="18" height="18" fill="#4285f4" stroke="#4285f4" stroke-width="1" />
+                    </svg>
+                    <div class="mePin-wrapper">
+                        <div class="mePin-child">
+                            <b style="right: 10px;">${typeName}</b>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
 
         const icon = L.divIcon({
             className: `custom-marker custom-${loc.code}`,
@@ -576,10 +617,24 @@ function addMarkers(locations, mapContainerId) {
         marker.bindPopup(loc.popup);
         markerMap.set(loc.code, marker);
     });
-    console.log(1);
-    
     setTimeout(() => {
         map.invalidateSize();
+
+        // ✅ Sau khi map đã sẵn sàng -> mới fetch và thêm layer GeoJSON
+        fetch('http://127.0.0.1:5500/dist/json/coordinates.json')
+            .then(response => response.json())
+            .then(data => {
+                const coordinatesLayer = L.layerGroup().addTo(map);
+                for (let i = 0; i < data.length; i++) {
+                    let coord = L.geoJson(data[i], {
+                        color: data[i].config?.stroke,
+                        fillColor: data[i].config?.fill,
+                        weight: 1.5,
+                        fillOpacity: 0.5,
+                    });
+                    coordinatesLayer.addLayer(coord);
+                }
+            });
     }, 10);
 }
 // setInterval(() => {
@@ -813,7 +868,7 @@ function updatePopupData(code, newZoneData) {
                 mergedData.lastTimeRD = HOMEOSAPP.formatDateTime(newZoneData.lastTimeRD);
                 $(".marker-label-"+code).html(WarningRain(parseValue(newZoneData.RD)))
                 $(".marker-"+code+" .marker-pin circle").attr("fill", "red");
-                $(".marker-"+code+" .mePin-wrapper .mePin-child b").css("color", "red");
+                // $(".marker-"+code+" .mePin-wrapper .mePin-child b").css("color", "red");
             }
             mergedData.RD = parseValue(newZoneData.RD); // Lượng mưa
             break;
@@ -824,12 +879,23 @@ function updatePopupData(code, newZoneData) {
             mergedData.EC = parseValue(newZoneData.EC);
             break;
         case "TD":
+            if(newZoneData.RN){
+                $(".marker-label-"+code).html(WarningWaterLevel(parseValue(newZoneData.RN)/10))
+            }
             mergedData.RN = parseValue(newZoneData.RN);
             mergedData.TN = parseValue(newZoneData.TN);
             mergedData.QV = parseValue(newZoneData.QV);
             mergedData.QR = parseValue(newZoneData.QR);
             break;
         case "NMLLTD":
+            if(newZoneData.RN){
+                mergedData.lastTimeRD = HOMEOSAPP.formatDateTime(newZoneData.lastTimeRD);
+                $(".marker-label-"+code).html(WarningWaterLevel(parseValue(newZoneData.RN)/10))
+                console.log(parseValue(newZoneData.RN)/10, WarningWaterLevel(parseValue(newZoneData.RN)/10));
+                
+                $(".marker-"+code+" .marker-pin circle").attr("fill", "red");
+                $(".marker-"+code+" .mePin-wrapper .mePin-child b").css("color", "red");
+            }
             mergedData.RN = parseValue(newZoneData.RN);
             mergedData.RD = parseValue(newZoneData.RD);
             mergedData.QN = parseValue(newZoneData.QN);
@@ -916,6 +982,21 @@ function WarningRain(value) {
     if (value >= 200 && value < 300) energy = "<b><font color='#99004d'>" + value + "mm</font></b>";
     if (value >= 300 && value < 400) energy = "<b><font color='#7b7b7b'>" + value + "mm</font></b>";
     if (value >= 400) energy = "<b><font color='#A00BA0'>" + value + "mm</font></b>";
+    
+    return energy;
+}
+function WarningWaterLevel(value) {
+    var energy = "<b><font>" + value + "</font></b>";
+    if (value >= 0 && value < 5) energy = "<b><font color='#1a6985'>" + value + "cm</font></b>";
+    if (value >= 5 && value < 10) energy = "<b><font color='#0f3c4c'>" + value + "cm</font></b>";
+    if (value >= 10 && value < 20) energy = "<b><font color='#0084FF'>" + value + "cm</font></b>";
+    if (value >= 20 && value < 50) energy = "<b><font color='#6766ff'>" + value + "cm</font></b>";
+    if (value >= 50 && value < 100) energy = "<b><font color='#cc6600'>" + value + "cm</font></b>";
+    if (value >= 100 && value < 150) energy = "<b><font color='#006600'>" + value + "cm</font></b>";
+    if (value >= 150 && value < 200) energy = "<b><font color='#00FFFF'>" + value + "cm</font></b>";
+    if (value >= 200 && value < 300) energy = "<b><font color='#1a6985'>" + value + "cm</font></b>";
+    if (value >= 300 && value < 400) energy = "<b><font color='#0f3c4c'>" + value + "cm</font></b>";
+    if (value >= 400) energy = "<b><font color='#A00BA0'>" + value + "cm</font></b>";
     
     return energy;
 }

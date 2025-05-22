@@ -946,9 +946,10 @@ $("#PickApp-button-pick").click(function () {
 });
 
 $("#tab-scan-qr").click(function (event) {
-    if(window.workstationID){
+    if(window.workstationID && window.workstationID != "done"){
         openTab(event, 'tab1');
         getInputValue(window.workstationID);
+        window.workstationID = "done";
     } else {
         openTab(event, 'tab1')
     }
