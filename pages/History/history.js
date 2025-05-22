@@ -752,6 +752,7 @@ function generatePopupValueHTML(loc) {
                 <tr><td>Mực nước: ${loc.RN ?? 0} cm</td></tr>
             `;
             break;
+        case "MSL":
         case "M":
         case "MS":
             extraContent = `
