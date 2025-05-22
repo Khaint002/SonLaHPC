@@ -239,10 +239,10 @@ function rotateProperties() {
     ZONE_UNIT = next.unit;
 
     const TDProps = [
-        { prop: 'RT', unit: ' °C' },
         { prop: 'RN', unit: ' cm' },
-        { prop: 'SS', unit: ' ppt' },
-        { prop: 'EC', unit: ' μs/cm' }
+        { prop: 'TN', unit: ' tr.m³' },
+        { prop: 'QV', unit: ' m³/s' },
+        { prop: 'QR', unit: ' m³/s' }
     ];
 
     const TDIndex = TDProps.findIndex(p => p.prop === ZONE_PROPERTY_TD);
@@ -251,10 +251,10 @@ function rotateProperties() {
     ZONE_UNIT_NNS = nextTD.unit;
 
     const SLProps = [
-        { prop: 'RT', unit: ' °C' },
+        { prop: 'RD', unit: ' mm' },
         { prop: 'RN', unit: ' cm' },
-        { prop: 'SS', unit: ' ppt' },
-        { prop: 'EC', unit: ' μs/cm' }
+        { prop: 'QN', unit: ' m³/s' },
+        { prop: 'VN', unit: ' m/s' }
     ];
 
     const SLIndex = SLProps.findIndex(p => p.prop === ZONE_PROPERTY_SL);
