@@ -621,7 +621,7 @@ function addMarkers(locations, mapContainerId) {
         map.invalidateSize();
 
         // ✅ Sau khi map đã sẵn sàng -> mới fetch và thêm layer GeoJSON
-        fetch('http://127.0.0.1:5500/dist/json/coordinates.json')
+        fetch('https://son-la-hpc.vercel.app/dist/json/coordinates.json')
             .then(response => response.json())
             .then(data => {
                 const coordinatesLayer = L.layerGroup().addTo(map);
