@@ -62,6 +62,10 @@ var ZONE_PROPERTY = 'RD';
 var ZONE_UNIT = ' mm';
 var ZONE_PROPERTY_NNS = 'RT';
 var ZONE_UNIT_NNS = ' °C';
+var ZONE_PROPERTY_TD = 'RN';
+var ZONE_UNIT_TD = ' cm';
+var ZONE_PROPERTY_SL = 'RD';
+var ZONE_UNIT_SL = ' mm';
 
 function getColorByTimeDiff(dateStr) {
     const now = new Date();
@@ -234,16 +238,29 @@ function rotateProperties() {
     ZONE_PROPERTY = next.prop;
     ZONE_UNIT = next.unit;
 
-    const nnsProps = [
+    const TDProps = [
         { prop: 'RT', unit: ' °C' },
         { prop: 'RN', unit: ' cm' },
         { prop: 'SS', unit: ' ppt' },
         { prop: 'EC', unit: ' μs/cm' }
     ];
-    const nnsIndex = nnsProps.findIndex(p => p.prop === ZONE_PROPERTY_NNS);
-    const nextNNS = nnsProps[(nnsIndex + 1) % nnsProps.length];
-    ZONE_PROPERTY_NNS = nextNNS.prop;
-    ZONE_UNIT_NNS = nextNNS.unit;
+
+    const TDIndex = TDProps.findIndex(p => p.prop === ZONE_PROPERTY_TD);
+    const nextTD = TDProps[(TDIndex + 1) % TDProps.length];
+    ZONE_PROPERTY_TD = nextTD.prop;
+    ZONE_UNIT_NNS = nextTD.unit;
+
+    const SLProps = [
+        { prop: 'RT', unit: ' °C' },
+        { prop: 'RN', unit: ' cm' },
+        { prop: 'SS', unit: ' ppt' },
+        { prop: 'EC', unit: ' μs/cm' }
+    ];
+
+    const SLIndex = SLProps.findIndex(p => p.prop === ZONE_PROPERTY_SL);
+    const nextSL = SLProps[(SLIndex + 1) % SLProps.length];
+    ZONE_PROPERTY_SL = nextSL.prop;
+    ZONE_UNIT_NNS = nextSL.unit;
 }
 
 async function updateWorkstationUI(station, data) {
@@ -259,8 +276,10 @@ async function updateWorkstationUI(station, data) {
     let prop = 'RD';
     if (station.workstationType === "NAAM") prop = ZONE_PROPERTY;
     else if (station.workstationType === "N") prop = 'RN';
-    else if (["M", "MS"].includes(station.workstationType)) prop = 'RD';
+    else if (["M", "MS", "MSL"].includes(station.workstationType)) prop = 'RD';
     else if (station.workstationType === "NNS") prop = ZONE_PROPERTY_NNS;
+    else if (station.workstationType === "TD") prop = ZONE_PROPERTY_TD;
+    else if (station.workstationType === "NMLLTD") prop = ZONE_PROPERTY_SL;
 
     const dataRD = filteredItems.find(item => item.ZONE_PROPERTY === prop);
     elementValue.textContent = dataRD ? getDisplayValue(dataRD, station.workstationType) : '_';
