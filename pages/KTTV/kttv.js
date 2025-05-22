@@ -509,14 +509,14 @@ $("#export-kttv").click(function () {
 async function getDevicefilter(checkReporttext) {
     if(checkReporttext == 'KTTV'){
         const data = JSON.parse(localStorage.getItem("itemHistory"));
-        const dataDevice = await HOMEOSAPP.getDM("https://"+data.domain+"/service/service.svc", "DM_WORKSTATION_DEVICE", "WORKSTATION_ID='" + data.CodeWorkStation + "'", "NotCentral");
+        const dataReport = await HOMEOSAPP.getDM("https://"+data.domain+"/service/service.svc", "SYS_REPORT", "ACTIVE='1'", "NotCentral");
         const selectElement = $('#KTTV_Report');
         selectElement.empty();
 
-        for (let i = 0; i < dataDevice.data.length; i++) {
+        for (let i = 0; i < dataReport.data.length; i++) {
             const option = $('<option></option>'); // tạo option bằng jQuery
-            option.val(processCode(dataDevice.data[i].TRAN_NO));
-            option.text(dataDevice.data[i].DESCRIPTION);
+            option.val(processCode(dataReport.data[i].REPORT_ID));
+            option.text(dataReport.data[i].REPORT_NAME);
             selectElement.append(option); // dùng jQuery append
         }
     } else {
@@ -606,7 +606,7 @@ async function exportRepost(type, startDate, endDate, reportType, isViewer) {
     var nameReport;
     if(checkReport == 'KTTV'){
         linkbase = 'https://'+data.domain+'/Service/Service.svc/';
-        c = [{"ID":data.CodeWorkStation,"NAME":data.NameWorkStation,"IDFIELD":"WORKSTATION_ID","NAMETABLE":"DM_WORKSTATION","REPORT_ID":"RPT_API_MOBILE"},{"ID":reportType,"NAME":"","IDFIELD":"ZONE_PROPERTY","NAMETABLE":"VW_COMMAND","REPORT_ID":"RPT_API_MOBILE"}];
+        // c = [{"ID":data.CodeWorkStation,"NAME":data.NameWorkStation,"IDFIELD":"WORKSTATION_ID","NAMETABLE":"DM_WORKSTATION","REPORT_ID":"RPT_API_MOBILE"},{"ID":reportType,"NAME":"","IDFIELD":"ZONE_PROPERTY","NAMETABLE":"VW_COMMAND","REPORT_ID":"RPT_API_MOBILE"}];
         nameReport = 'RPT_INFO_10P';
     } else {
         linkbase = 'https://central.homeos.vn/service_XD/service.svc/';
