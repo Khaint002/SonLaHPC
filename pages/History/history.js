@@ -238,6 +238,17 @@ function rotateProperties() {
     ZONE_PROPERTY = next.prop;
     ZONE_UNIT = next.unit;
 
+    const nnsProps = [
+        { prop: 'RT', unit: ' °C' },
+        { prop: 'RN', unit: ' cm' },
+        { prop: 'SS', unit: ' ppt' },
+        { prop: 'EC', unit: ' μs/cm' }
+    ];
+    const nnsIndex = nnsProps.findIndex(p => p.prop === ZONE_PROPERTY_NNS);
+    const nextNNS = nnsProps[(nnsIndex + 1) % nnsProps.length];
+    ZONE_PROPERTY_NNS = nextNNS.prop;
+    ZONE_UNIT_NNS = nextNNS.unit;
+
     const TDProps = [
         { prop: 'RN', unit: ' cm' },
         { prop: 'TN', unit: ' tr.m³' },
@@ -248,7 +259,7 @@ function rotateProperties() {
     const TDIndex = TDProps.findIndex(p => p.prop === ZONE_PROPERTY_TD);
     const nextTD = TDProps[(TDIndex + 1) % TDProps.length];
     ZONE_PROPERTY_TD = nextTD.prop;
-    ZONE_UNIT_NNS = nextTD.unit;
+    ZONE_UNIT_TD = nextTD.unit;
 
     const SLProps = [
         { prop: 'RD', unit: ' mm' },
@@ -260,7 +271,7 @@ function rotateProperties() {
     const SLIndex = SLProps.findIndex(p => p.prop === ZONE_PROPERTY_SL);
     const nextSL = SLProps[(SLIndex + 1) % SLProps.length];
     ZONE_PROPERTY_SL = nextSL.prop;
-    ZONE_UNIT_NNS = nextSL.unit;
+    ZONE_UNIT_SL = nextSL.unit;
 }
 
 async function updateWorkstationUI(station, data) {
@@ -464,20 +475,16 @@ function getDisplayValue(item, type) {
                 return item.ZONE_VALUE / 10 + ZONE_UNIT_NNS;
             }
         case "TD":
-            if (ZONE_PROPERTY === "SS") {
-                return (item.ZONE_VALUE / 10000).toFixed(2) + ZONE_UNIT_NNS;
-            } else if (ZONE_PROPERTY_NNS === "EC") {
-                return (item.ZONE_VALUE / 1000).toFixed(2) + ZONE_UNIT_NNS;
-            } else if(ZONE_PROPERTY_NNS === "RN") {
-                return item.ZONE_VALUE + ZONE_UNIT_NNS;
+            if(ZONE_PROPERTY_NNS === "RN") {
+                return item.ZONE_VALUE + ZONE_UNIT_TD;
             } else {
-                return item.ZONE_VALUE / 10 + ZONE_UNIT_NNS;
+                return item.ZONE_VALUE / 10 + ZONE_UNIT_TD;
             }
         case "NMLLTD":
             if(ZONE_PROPERTY_NNS === "VN") {
-                return item.ZONE_VALUE + ZONE_UNIT_NNS;
+                return item.ZONE_VALUE + ZONE_UNIT_SL;
             } else {
-                return item.ZONE_VALUE / 10 + ZONE_UNIT_NNS;
+                return item.ZONE_VALUE / 10 + ZONE_UNIT_SL;
             }
         default:
             return "-";
