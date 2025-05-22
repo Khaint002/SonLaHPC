@@ -509,14 +509,14 @@ $("#export-kttv").click(function () {
 async function getDevicefilter(checkReporttext) {
     if(checkReporttext == 'KTTV'){
         const data = JSON.parse(localStorage.getItem("itemHistory"));
-        const dataReport = await HOMEOSAPP.getDM("https://"+data.domain+"/service/service.svc", "SYS_REPORT", "ACTIVE=1", "NotCentral");
+        const dataReport = await HOMEOSAPP.getDataReport('1',"https://"+data.domain+"/service/service.svc");
         const selectElement = $('#KTTV_Report');
         selectElement.empty();
 
-        for (let i = 0; i < dataReport.data.length; i++) {
+        for (let i = 0; i < dataReport.length; i++) {
             const option = $('<option></option>'); // tạo option bằng jQuery
-            option.val(processCode(dataReport.data[i].REPORT_ID));
-            option.text(dataReport.data[i].REPORT_NAME);
+            option.val(processCode(dataReport[i].REPORT_ID));
+            option.text(dataReport[i].REPORT_NAME);
             selectElement.append(option); // dùng jQuery append
         }
     } else {

@@ -386,6 +386,31 @@ HOMEOSAPP.getDataChart = function(typeTime, start, end, type, zone, url) {
     });
 }
 
+HOMEOSAPP.getDataReport = function(active, url) {
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            url: url + "/ApiServicePublic/" + "GetDataReport/ACTIVE="+active,
+            type: "GET",
+            dataType: "jsonp",
+            contentType: "application/json; charset=utf-8",
+            success: function (msg) {
+                try {
+                    let state = JSON.parse(msg);
+                    resolve(state); // Trả về dữ liệu khi thành công
+                } catch (error) {
+                    reject(error); // Bắt lỗi nếu JSON parse thất bại
+                }
+            },
+            complete: function (data) {
+                // Có thể thêm xử lý khi request hoàn thành ở đây nếu cần
+            },
+            error: function (e, t, x) {
+                toastr.error("Lấy dữ liệu bị lỗi vui lòng thử lại sau!");
+            },
+        });
+    });
+}
+
 function checkRoleUser(user_id, password, url, check) {
     let sessionItems = JSON.parse(localStorage.getItem('dataSession')) || [];
 
