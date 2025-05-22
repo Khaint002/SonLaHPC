@@ -569,12 +569,8 @@ function addMarkers(locations, mapContainerId) {
         let typeName = '';
         if(loc.type == "N"){
             typeName = 'N';
-        } else if(loc.type == "M" || loc.type == "MS" || loc.type == "MSL" ){
+        } else if(loc.type == "M" || loc.type == "MS" ){
             typeName = 'R';
-        } else if(loc.type == "NMLLTD"){
-            typeName = 'Q';
-        } else if(loc.type == "TD"){
-            typeName = 'N';
         }
         
         let customHTML = "";
