@@ -1660,6 +1660,9 @@ h1 {
     width: 100%;
     z-index: 1;
 }
+.leaflet-overlay-pane .leaflet-zoom-animated {
+    top: 22px;
+}
 .leaflet-marker-pane {
     margin-top: 18px !important;
 }
