@@ -272,7 +272,8 @@ async function updateWorkstationUI(station, data) {
         if (button) button.style.backgroundColor = "#da4a58";
         return;
     }
-
+    console.log(station, data, );
+    
     let prop = 'RD';
     if (station.workstationType === "NAAM") prop = ZONE_PROPERTY;
     else if (station.workstationType === "N") prop = 'RN';
@@ -472,12 +473,8 @@ function getDisplayValue(item, type) {
             } else {
                 return item.ZONE_VALUE / 10 + ZONE_UNIT_NNS;
             }
-        case "TD":
-            if (ZONE_PROPERTY_NNS === "SS") {
-                return (item.ZONE_VALUE / 10000).toFixed(2) + ZONE_UNIT_NNS;
-            } else if (ZONE_PROPERTY_NNS === "EC") {
-                return (item.ZONE_VALUE / 1000).toFixed(2) + ZONE_UNIT_NNS;
-            } else if(ZONE_PROPERTY_NNS === "RN") {
+        case "NMLLTD":
+            if(ZONE_PROPERTY_NNS === "VN") {
                 return item.ZONE_VALUE + ZONE_UNIT_NNS;
             } else {
                 return item.ZONE_VALUE / 10 + ZONE_UNIT_NNS;
