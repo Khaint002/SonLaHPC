@@ -543,12 +543,7 @@ function processCode(code) {
 }
 
 $('#submitExport').click(function () {
-    let reportType;
-    if(checkReport == 'KTTV'){
-        reportType = $('#KTTV_Report').val();
-    } else {
-        reportType = $('#nameReport').val();
-    }
+    let reportType = $('#KTTV_Report').val();
     
     const startDate = $('#startDate').val();
     const endDate = $('#endDate').val();
