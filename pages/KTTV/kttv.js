@@ -543,6 +543,7 @@ function processCode(code) {
 }
 
 $('#submitExport').click(function () {
+    $('#loading-popup').show();
     let reportType = $('#KTTV_Report').val();
     
     const startDate = $('#startDate').val();
@@ -697,6 +698,7 @@ async function exportRepost(type, startDate, endDate, reportType, isViewer) {
                     document.body.removeChild(a);
                     console.log(1);
                 }
+                $('#loading-popup').hide();
                 console.log(link);
             }
         }
