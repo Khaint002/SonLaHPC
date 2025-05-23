@@ -833,13 +833,14 @@ function generatePopupValueHTML(loc) {
 }
 
 async function addDataLocation(item, tooltip, itemW) {
+    itemW
     const itemLocation = {
         name: item.WORKSTATION_NAME+'-'+item.WORKSTATION_ID,
         coords: [item.LONGITUDE, item.LATITUDE],
         type: item.TEMPLATE_TOOLTIP,
         code: item.WORKSTATION_ID,
         item: itemW,
-        popup: generatePopupHTML(item.WORKSTATION_NAME, item.WORKSTATION_ID, item.TEMPLATE_TOOLTIP, item)
+        popup: generatePopupHTML(item.WORKSTATION_NAME, item.WORKSTATION_ID, item.TEMPLATE_TOOLTIP, itemW)
     }
     locations.push(itemLocation);
 }
