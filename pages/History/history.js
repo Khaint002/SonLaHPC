@@ -912,8 +912,8 @@ function updatePopupData(code, newZoneData) {
         case "TD":
             if(newZoneData.RN){
                 $(".marker-label-"+code).html(WarningWaterLevel(parseValue(newZoneData.RN)/10));
-                $(".marker-"+code+" .marker-pin polygon").attr("fill", "#6c3483");
-                $(".marker-"+code+" .marker-pin polygon").attr("stroke", "#6c3483");
+                $(".marker-"+code+" .marker-pin rect").attr("fill", "#6c3483");
+                $(".marker-"+code+" .marker-pin rect").attr("stroke", "#6c3483");
             }
             mergedData.RN = parseValue(newZoneData.RN);
             mergedData.TN = parseValue(newZoneData.TN);
@@ -926,8 +926,8 @@ function updatePopupData(code, newZoneData) {
                 $(".marker-label-"+code).html(WarningWaterLevel(parseValue(newZoneData.RN)/10))
                 console.log(parseValue(newZoneData.RN)/10, WarningWaterLevel(parseValue(newZoneData.RN)/10));
                 
-                $(".marker-"+code+" .marker-pin rect").attr("fill", "red");
-                $(".marker-"+code+" .marker-pin rect").attr("stroke", "red");
+                $(".marker-"+code+" .marker-pin polygon").attr("fill", "red");
+                $(".marker-"+code+" .marker-pin polygon").attr("stroke", "red");
                 $(".marker-"+code+" .mePin-wrapper .mePin-child b").css("color", "red");
             }
             mergedData.RN = parseValue(newZoneData.RN);
