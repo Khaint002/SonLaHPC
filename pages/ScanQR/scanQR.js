@@ -99,17 +99,19 @@ function startQRcode() {
     $("#qr-popup").show();
 
     // Lấy danh sách camera và bắt đầu quét
-    Html5Qrcode.getCameras().then(devicesList => {
-        devices = devicesList;
-        if (devices?.length) {
-            const cameraId = devices[currentCameraIndex].id;
-            const facingMode = devices.length === 1 ? "user" : "environment";
-            startScan(cameraId, facingMode);
+    Html5Qrcode.getCameras().then(_devices => {
+        devices = _devices; // Lưu lại danh sách camera
+        if (devices && devices.length) {
+            if (devices.length == 1) {
+                startScan(devices[currentCameraIndex].id, "user");  // Bắt đầu quét với camera đầu tiên
+            } else {
+                startScan(devices[currentCameraIndex].id, "environment");
+            }
         } else {
             console.error("Không tìm thấy thiết bị camera nào.");
         }
     }).catch(err => {
-        console.error("Lỗi khi lấy danh sách camera:", err);
+        console.error("Lỗi khi lấy danh sách camera: ", err);
     });
 }
 
