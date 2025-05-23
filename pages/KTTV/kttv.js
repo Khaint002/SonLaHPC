@@ -515,7 +515,7 @@ async function getDevicefilter(checkReporttext) {
 
         for (let i = 0; i < dataReport.length; i++) {
             const option = $('<option></option>'); // tạo option bằng jQuery
-            option.val(processCode(dataReport[i].REPORT_ID));
+            option.val(dataReport[i].REPORT_ID);
             option.text(dataReport[i].REPORT_NAME);
             selectElement.append(option); // dùng jQuery append
         }
