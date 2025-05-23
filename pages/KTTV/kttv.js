@@ -680,6 +680,13 @@ async function exportRepost(type, startDate, endDate, reportType, isViewer) {
                     this.transOutput.SetUrl(link);
                     this.transOutput.Show();
                 }
+                $('#submitExport').css({
+                    'background-color': '#2c697b',
+                    'border': 'solid 1px #2c697b'
+                });
+            
+                // Đổi nội dung text
+                $('#submitExport').text('Xuất dữ liệu báo cáo (excel)');
             }
             else {
                 const urlservice = linkbase
