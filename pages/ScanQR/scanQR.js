@@ -56,41 +56,42 @@ $("#close-scanner").click(function () {
 });
 
 async function startScan(cameraId, cam) {
-    try {
-        currentCamera = cam;
-        html5QrCode = new Html5Qrcode("qr-reader");
-
-        await html5QrCode.start(
-            cameraId,
-            {
-                fps: 30,
-                qrbox: { width: 250, height: 250 },
-                aspectRatio: 1.7,
-                videoConstraints: {
-                    width: { ideal: 1920 },
-                    height: { ideal: 1080 },
-                    facingMode: { exact: cam },
-                    advanced: [{ zoom: 2 }]
-                }
-            },
-            onScanSuccess,
-            onScanFailure
-        );
-
-        isScannerRunning = true;
-
-        // Tùy chỉnh viền khung quét sau 100ms
+    currentCamera = cam;
+    html5QrCode = new Html5Qrcode("qr-reader");
+    html5QrCode.start(
+        cameraId,
+        {
+            fps: 30,    // Số khung hình trên giây
+            qrbox: { width: 250, height: 250 },  // Kích thước khung quét QR
+            aspectRatio: 1.7, // Đặt tỉ lệ khung hình
+            videoConstraints: {
+                // width: { ideal: 3840 }, // Độ phân giải video 4k
+                // height: { ideal: 2160 },
+                width: { ideal: 1920 }, // Độ phân giải video 1080p
+                height: { ideal: 1080 },
+                // width: { ideal: 2560 }, // Độ phân giải video 2k 
+                // height: { ideal: 1440 },
+                facingMode: { exact: cam },
+                advanced: [{ zoom: 2 }]
+            }
+        },
+        onScanSuccess,
+        onScanFailure
+    ).then(() => {
+        isScannerRunning = true;  // Đánh dấu scanner đang chạy
         setTimeout(() => {
-            const borderStyle = typeQR === 1
-                ? '35vh 10vh'
-                : '36vh 13vh';
-            $('#qr-shaded-region').css('border-width', borderStyle);
+            if (typeQR == 1) {
+                $('#qr-shaded-region').css('border-width', '35vh 10vh');
+                // $('#qr-shaded-region').attr('style', 'border-width: 35vh 10vh !important;');
+            } else {
+                $('#qr-shaded-region').css('border-width', '36vh 13vh');
+                // $('#qr-shaded-region').attr('style', 'border-width: 40vh 15vh !important;');
+            }
         }, 100);
+    }).catch(err => {
+        console.error("Lỗi khi khởi động camera: ", err);
+    });
 
-    } catch (err) {
-        console.error("Lỗi khi khởi động camera:", err);
-        toastr.error("Không thể khởi động camera. Vui lòng kiểm tra thiết bị!");
-    }
 }
 
 function startQRcode() {
