@@ -602,7 +602,7 @@ function addMarkers(locations, mapContainerId) {
                 <div class="marker-wrapper marker-${loc.code}">
                     <div class="marker-label marker-label-${loc.code}" style="font-size: 13px;"></div>
                     <svg class="marker-pin" viewBox="0 0 24 24" width="18" height="24" xmlns="http://www.w3.org/2000/svg">
-                        <polygon points="12,20 4,6 20,6" fill="#ff2d00" stroke="#ff2d00" stroke-width="1" />
+                        <polygon points="12,20 4,6 20,6" fill="#ffe400" stroke="#ffe400" stroke-width="1" />
                     </svg>
                     <div class="mePin-wrapper">
                         <div class="mePin-child">
@@ -911,7 +911,9 @@ function updatePopupData(code, newZoneData) {
             break;
         case "TD":
             if(newZoneData.RN){
-                $(".marker-label-"+code).html(WarningWaterLevel(parseValue(newZoneData.RN)/10))
+                $(".marker-label-"+code).html(WarningWaterLevel(parseValue(newZoneData.RN)/10));
+                $(".marker-"+code+" .marker-pin circle").attr("fill", "#6c3483");
+                $(".marker-"+code+" .marker-pin circle").attr("stroke", "#6c3483");
             }
             mergedData.RN = parseValue(newZoneData.RN);
             mergedData.TN = parseValue(newZoneData.TN);
