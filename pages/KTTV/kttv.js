@@ -654,8 +654,16 @@ async function exportRepost(type, startDate, endDate, reportType, isViewer) {
         
         try {
             state = JSON.parse(msg);
+            $('#submitExport').css({
+                'background-color': '#2c697b',
+                'border': 'solid 1px #2c697b'
+            });
+        
+            // Đổi nội dung text
+            $('#submitExport').text('Xuất dữ liệu báo cáo (excel)');
+
+            toastr.error("Xuất báo cáo lỗi, vui lòng kiểm tra lại");
             console.log(state);
-            
             // this.MessageBox(state.StateName, "danger", "")
             return;
         } catch (e) {
@@ -684,7 +692,6 @@ async function exportRepost(type, startDate, endDate, reportType, isViewer) {
                     'background-color': '#2c697b',
                     'border': 'solid 1px #2c697b'
                 });
-            
                 // Đổi nội dung text
                 $('#submitExport').text('Xuất dữ liệu báo cáo (excel)');
             }
@@ -708,13 +715,7 @@ async function exportRepost(type, startDate, endDate, reportType, isViewer) {
                     document.body.removeChild(a);
                     console.log(1);
                 }
-                $('#submitExport').css({
-                    'background-color': '#2c697b',
-                    'border': 'solid 1px #2c697b'
-                });
-            
-                // Đổi nội dung text
-                $('#submitExport').text('Xuất dữ liệu báo cáo (excel)');
+                
                 console.log(link);
             }
         }
