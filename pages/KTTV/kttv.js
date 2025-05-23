@@ -736,12 +736,14 @@ var reportOptions = [
 
 // Hàm khởi tạo các option trong select
 function renderOptions() {
-    const select = document.getElementById("dateTimeReport");
+    const $select = $("#dateTimeReport");
+    $select.empty(); // Xóa tất cả option hiện có
+
     reportOptions.forEach(opt => {
-        const option = document.createElement("option");
-        option.value = opt.value;
-        option.textContent = opt.text;
-        select.appendChild(option);
+        const $option = $("<option></option>")
+            .val(opt.value)
+            .text(opt.text);
+        $select.append($option);
     });
 }
 
