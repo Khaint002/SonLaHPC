@@ -700,7 +700,8 @@ function generatePopupHTML(name, code, type, item) {
     const fields = getFieldsByType(type);
 
     let dynamicRows = '';
-
+    console.log(item);
+    
     fields.forEach(field => {
         let label = '';
         switch (field) {
