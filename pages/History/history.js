@@ -328,6 +328,16 @@ async function showHistory(type) {
 
     historyItems = JSON.parse(localStorage.getItem('dataHistory')) || [];
     DataCategory = JSON.parse(localStorage.getItem('dataCategory')) || [];
+
+    for (const item of historyItems) {
+        if (item.domain === "sonla.homeos.vn") {
+            item.domain = "sonlahpc.hymetco.com";
+        }
+    }
+    
+    // Cập nhật lại localStorage với dữ liệu đã sửa
+    localStorage.setItem('dataHistory', JSON.stringify(historyItems));
+    historyItems = JSON.parse(localStorage.getItem('dataHistory')) || [];
     const arrayCategory = ["ADD"];
 
     // Tạo danh sách tên danh mục không trùng
@@ -355,7 +365,6 @@ async function showHistory(type) {
     historyListDetail.empty();
     locations = [];
     for (const item of historyItems) {
-        console.log(item);
         addItemHistory(item);
         const dataWorkstation = await HOMEOSAPP.getDM(
             "https://" + item.domain + "/service/service.svc",
