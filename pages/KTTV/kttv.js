@@ -703,13 +703,14 @@ async function exportRepost(type, startDate, endDate, reportType, isViewer) {
                 link = link.replace('Service.svc/', '');
                 // link = link.replace('pdf', 'xls');
                 if(window.downloadFileToDevice){
-                    window.downloadFileToDevice(link);
                     $('#submitExport').css({
                         'background-color': '#2c697b',
                         'border': 'solid 1px #2c697b'
                     });
                     // Đổi nội dung text
                     $('#submitExport').text('Xuất dữ liệu báo cáo (excel)');
+                    window.downloadFileToDevice(link);
+                    
                     toastr.success("download file thành công ");
                 } else {
                     // window.open(link, "download");
