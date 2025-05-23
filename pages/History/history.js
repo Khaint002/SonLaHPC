@@ -725,7 +725,7 @@ function generatePopupHTML(name, code, type, item) {
             </tr>
         `;
     });
-
+    const itemStr = JSON.stringify(item).replace(/"/g, '&quot;');
     return `
         <table style="width:400px;">
             <tbody>
@@ -744,7 +744,7 @@ function generatePopupHTML(name, code, type, item) {
                     <td>Hoạt động cuối lúc: <span id="popup-${code}-LastTime">@LASTTIME</span></td>
                 </tr>
                 <tr style="height:22px">
-                    <td><div><button id="tooltip" class="btn btn-warning" style="margin-top: 20px; background-color: #f39c12;border: solid 1px #f39c12; width: 75%; height: 35px; color: #fff; padding: 3px 10px;" onclick="handleItemClick(${item});">Xem chi tiết</button></div></td>
+                    <td><div><button id="tooltip" class="btn btn-warning" style="margin-top: 20px; background-color: #f39c12;border: solid 1px #f39c12; width: 75%; height: 35px; color: #fff; padding: 3px 10px;" onclick="handleItemClick(${itemStr});">Xem chi tiết</button></div></td>
                 </tr>
             </tbody>
         </table>
