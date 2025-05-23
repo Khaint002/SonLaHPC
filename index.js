@@ -758,13 +758,3 @@ $("#share-workStation").click(function () {
     const item = JSON.parse(localStorage.getItem("itemHistory"));
     window.shareWorkStation("Trạm quan trắc "+ item.NameWorkStation, 'https://central.homeos.vn/images/MiniAppLoadingScreen.png', item.CodeWorkStation);
 });
-
-$("#result-scanagain").click(function () {
-    document.getElementById("result-form-total").classList.add("d-none");
-    document.getElementById("result-form-loading").classList.remove("d-none");
-    document.getElementById("result-form-title").classList.add("d-none");
-    document.getElementById("result-form-stationID").classList.remove("d-none");
-    document.getElementById("result-form-stationName").classList.remove("d-none");
-    document.getElementById("result-truycap").classList.remove("d-none");
-    scanAgain();
-});
