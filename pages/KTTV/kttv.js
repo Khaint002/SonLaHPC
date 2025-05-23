@@ -543,9 +543,14 @@ function processCode(code) {
 }
 
 $('#submitExport').click(function () {
-    console.log('chạy');
+    $('#submitExport').css({
+        'background-color': '#f39c12',
+        'border': 'solid 1px #f39c12'
+    });
+
+    // Đổi nội dung text
+    $('#submitExport').text('Đang xuất dữ liệu...');
     
-    $("#loading-popup").show();
     let reportType = $('#KTTV_Report').val();
     
     const startDate = $('#startDate').val();
@@ -696,7 +701,13 @@ async function exportRepost(type, startDate, endDate, reportType, isViewer) {
                     document.body.removeChild(a);
                     console.log(1);
                 }
-                $('#loading-popup').hide();
+                $('#submitExport').css({
+                    'background-color': '#2c697b',
+                    'border': 'solid 1px #2c697b'
+                });
+            
+                // Đổi nội dung text
+                $('#submitExport').text('Xuất dữ liệu báo cáo (excel)');
                 console.log(link);
             }
         }
