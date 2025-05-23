@@ -608,7 +608,7 @@ async function exportRepost(type, startDate, endDate, reportType, isViewer) {
     if(checkReport == 'KTTV'){
         linkbase = 'https://'+data.domain+'/Service/Service.svc/';
         // c = [{"ID":data.CodeWorkStation,"NAME":data.NameWorkStation,"IDFIELD":"WORKSTATION_ID","NAMETABLE":"DM_WORKSTATION","REPORT_ID":"RPT_API_MOBILE"},{"ID":reportType,"NAME":"","IDFIELD":"ZONE_PROPERTY","NAMETABLE":"VW_COMMAND","REPORT_ID":"RPT_API_MOBILE"}];
-        nameReport = 'RPT_INFO_10P';
+        nameReport = reportType;
     } else {
         linkbase = 'https://central.homeos.vn/service_XD/service.svc/';
         nameReport = reportType;
