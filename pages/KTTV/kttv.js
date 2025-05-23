@@ -543,15 +543,13 @@ function processCode(code) {
 }
 
 $('#submitExport').click(function () {
-    $('#loading-popup').show();
+    console.log('chạy');
+    
+    $("#loading-popup").show();
     let reportType = $('#KTTV_Report').val();
     
     const startDate = $('#startDate').val();
     const endDate = $('#endDate').val();
-
-    console.log("Loại báo cáo:", reportType);
-    console.log("Ngày bắt đầu:", startDate);
-    console.log("Ngày kết thúc:", endDate);
 
     exportRepost('E', startDate, endDate, reportType);
     // Bạn có thể xử lý tiếp ở đây, ví dụ:
