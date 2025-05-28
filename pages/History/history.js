@@ -914,7 +914,7 @@ function updatePopupData(code, newZoneData) {
             break;
         case "TD":
             if(newZoneData.RN){
-                $(".marker-label-"+code).html(WarningWaterLevel(parseValue(newZoneData.RN)/10, "mm"));
+                $(".marker-label-"+code).html(WarningWaterLevel(parseValue(newZoneData.RN)/10, "cm"));
                 $(".marker-"+code+" .marker-pin rect").attr("fill", "#6c3483");
                 $(".marker-"+code+" .marker-pin rect").attr("stroke", "#6c3483");
             }
@@ -926,8 +926,9 @@ function updatePopupData(code, newZoneData) {
         case "NMLLTD":
             if(newZoneData.RN){
                 mergedData.lastTimeRD = HOMEOSAPP.formatDateTime(newZoneData.lastTimeRD);
-                $(".marker-label-"+code).html(WarningWaterLevel(parseValue(newZoneData.RN)/10, "m"))
-                
+            }
+            if(newZoneData.QN){
+                $(".marker-label-"+code).html(WarningQN(parseValue(newZoneData.QN), "m³/s"))
                 $(".marker-"+code+" .marker-pin polygon").attr("fill", "red");
                 $(".marker-"+code+" .marker-pin polygon").attr("stroke", "red");
                 $(".marker-"+code+" .mePin-wrapper .mePin-child b").css("color", "red");
@@ -1033,6 +1034,21 @@ function WarningWaterLevel(value, unit) {
     if (value >= 200 && value < 300) energy = "<b><font color='#1a6985'>" + value + " "+unit+"</font></b>";
     if (value >= 300 && value < 400) energy = "<b><font color='#0f3c4c'>" + value + " "+unit+"</font></b>";
     if (value >= 400) energy = "<b><font color='#A00BA0'>" + value + " "+unit+"</font></b>";
+    
+    return energy;
+}
+function WarningQN(value, unit) {
+    var energy = "<b><font>" + value + "</font></b>";
+    if (value >= 0 && value < 100) energy = "<b><font color='#1a6985'>" + value + " "+unit+"</font></b>";
+    if (value >= 100 && value < 300) energy = "<b><font color='#0f3c4c'>" + value + " "+unit+"</font></b>";
+    if (value >= 300 && value < 600) energy = "<b><font color='#0084FF'>" + value + " "+unit+"</font></b>";
+    if (value >= 600 && value < 1000) energy = "<b><font color='#6766ff'>" + value + " "+unit+"</font></b>";
+    if (value >= 1000 && value < 1500) energy = "<b><font color='#cc6600'>" + value + " "+unit+"</font></b>";
+    if (value >= 1500 && value < 2000) energy = "<b><font color='#006600'>" + value + " "+unit+"</font></b>";
+    if (value >= 2000 && value < 2500) energy = "<b><font color='#00FFFF'>" + value + " "+unit+"</font></b>";
+    if (value >= 2500 && value < 3000) energy = "<b><font color='#1a6985'>" + value + " "+unit+"</font></b>";
+    if (value >= 3000 && value < 3500) energy = "<b><font color='#0f3c4c'>" + value + " "+unit+"</font></b>";
+    if (value >= 3500) energy = "<b><font color='#A00BA0'>" + value + " "+unit+"</font></b>";
     
     return energy;
 }
