@@ -269,6 +269,8 @@ function changeDataHomePage(data) {
                 checkRD = true;
                 if(itemw.workstationType == 'TD'){
                     updateText("RN", ZONE_VALUE / 100 + " m");
+                } else if(itemw.workstationType == 'NMLLTD'){
+                    updateText("RN", ZONE_VALUE + " m");
                 } else {
                     updateText("RN", ZONE_VALUE + " cm");
                 }
