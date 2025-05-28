@@ -802,7 +802,7 @@ function generatePopupValueHTML(loc) {
             break;
         case "TD":
             extraContent = `
-                <tr><td>Mực nước: ${loc.RN ?? 0} cm</td></tr>
+                <tr><td>Mực nước: ${(loc.RN/1000).toFixed(2) ?? 0} m</td></tr>
                 <tr><td><b>Dung tích: ${loc.TN ?? 0} tr.m³</b></td></tr>
                 <tr><td><b>Lưu lượng đến: ${loc.QV ?? 0} m³/s</b></td></tr>
                 <tr><td><b>Lưu lượng xả: ${loc.QR ?? 0} m³/s</b></td></tr>
@@ -810,7 +810,7 @@ function generatePopupValueHTML(loc) {
             break;
         case "NMLLTD":
             extraContent = `
-                <tr><td>Mực nước: ${loc.RN/100 ?? 0} m</td></tr>
+                <tr><td>Mực nước: ${loc.RN ?? 0} m</td></tr>
                 <tr><td><b>Lượng mưa: ${loc.RD ?? 0} mm</b></td></tr>
                 <tr><td><b>Lưu lượng nước: ${loc.QN ?? 0} m³/s</b></td></tr>
                 <tr><td><b>Tốc độ dòng chảy: ${loc.VN ?? 0} m³/s</b></td></tr>
@@ -914,7 +914,7 @@ function updatePopupData(code, newZoneData) {
             break;
         case "TD":
             if(newZoneData.RN){
-                $(".marker-label-"+code).html(WarningWaterLevel(parseValue(newZoneData.RN)/10, "cm"));
+                $(".marker-label-"+code).html(WarningWaterLevel((parseValue(newZoneData.RN)/1000).toFixed(2), "m"));
                 $(".marker-"+code+" .marker-pin rect").attr("fill", "#6c3483");
                 $(".marker-"+code+" .marker-pin rect").attr("stroke", "#6c3483");
             }
