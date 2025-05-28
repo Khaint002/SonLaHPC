@@ -643,6 +643,9 @@ function addMarkers(locations, mapContainerId) {
             code: loc.code,
             item: loc.item
         };
+        marker.on('click', function (e) {
+            map.setView(loc.coords, 8); // Hoặc dùng map.flyTo(...) nếu muốn hiệu ứng mượt
+        });
         marker.bindPopup(loc.popup);
         markerMap.set(loc.code, marker);
     });
@@ -911,7 +914,7 @@ function updatePopupData(code, newZoneData) {
             break;
         case "TD":
             if(newZoneData.RN){
-                $(".marker-label-"+code).html(WarningWaterLevel(parseValue(newZoneData.RN)/10));
+                $(".marker-label-"+code).html(WarningWaterLevel(parseValue(newZoneData.RN)/10, "mm"));
                 $(".marker-"+code+" .marker-pin rect").attr("fill", "#6c3483");
                 $(".marker-"+code+" .marker-pin rect").attr("stroke", "#6c3483");
             }
@@ -923,8 +926,7 @@ function updatePopupData(code, newZoneData) {
         case "NMLLTD":
             if(newZoneData.RN){
                 mergedData.lastTimeRD = HOMEOSAPP.formatDateTime(newZoneData.lastTimeRD);
-                $(".marker-label-"+code).html(WarningWaterLevel(parseValue(newZoneData.RN)/10))
-                console.log(parseValue(newZoneData.RN)/10, WarningWaterLevel(parseValue(newZoneData.RN)/10));
+                $(".marker-label-"+code).html(WarningWaterLevel(parseValue(newZoneData.RN)/10, "m"))
                 
                 $(".marker-"+code+" .marker-pin polygon").attr("fill", "red");
                 $(".marker-"+code+" .marker-pin polygon").attr("stroke", "red");
@@ -1019,18 +1021,18 @@ function WarningRain(value) {
     
     return energy;
 }
-function WarningWaterLevel(value) {
+function WarningWaterLevel(value, unit) {
     var energy = "<b><font>" + value + "</font></b>";
-    if (value >= 0 && value < 5) energy = "<b><font color='#1a6985'>" + value + "cm</font></b>";
-    if (value >= 5 && value < 10) energy = "<b><font color='#0f3c4c'>" + value + "cm</font></b>";
-    if (value >= 10 && value < 20) energy = "<b><font color='#0084FF'>" + value + "cm</font></b>";
-    if (value >= 20 && value < 50) energy = "<b><font color='#6766ff'>" + value + "cm</font></b>";
-    if (value >= 50 && value < 100) energy = "<b><font color='#cc6600'>" + value + "cm</font></b>";
-    if (value >= 100 && value < 150) energy = "<b><font color='#006600'>" + value + "cm</font></b>";
-    if (value >= 150 && value < 200) energy = "<b><font color='#00FFFF'>" + value + "cm</font></b>";
-    if (value >= 200 && value < 300) energy = "<b><font color='#1a6985'>" + value + "cm</font></b>";
-    if (value >= 300 && value < 400) energy = "<b><font color='#0f3c4c'>" + value + "cm</font></b>";
-    if (value >= 400) energy = "<b><font color='#A00BA0'>" + value + "cm</font></b>";
+    if (value >= 0 && value < 5) energy = "<b><font color='#1a6985'>" + value + " "+unit+"</font></b>";
+    if (value >= 5 && value < 10) energy = "<b><font color='#0f3c4c'>" + value + " "+unit+"</font></b>";
+    if (value >= 10 && value < 20) energy = "<b><font color='#0084FF'>" + value + " "+unit+"</font></b>";
+    if (value >= 20 && value < 50) energy = "<b><font color='#6766ff'>" + value + " "+unit+"</font></b>";
+    if (value >= 50 && value < 100) energy = "<b><font color='#cc6600'>" + value + " "+unit+"</font></b>";
+    if (value >= 100 && value < 150) energy = "<b><font color='#006600'>" + value + " "+unit+"</font></b>";
+    if (value >= 150 && value < 200) energy = "<b><font color='#00FFFF'>" + value + " "+unit+"</font></b>";
+    if (value >= 200 && value < 300) energy = "<b><font color='#1a6985'>" + value + " "+unit+"</font></b>";
+    if (value >= 300 && value < 400) energy = "<b><font color='#0f3c4c'>" + value + " "+unit+"</font></b>";
+    if (value >= 400) energy = "<b><font color='#A00BA0'>" + value + " "+unit+"</font></b>";
     
     return energy;
 }
