@@ -526,6 +526,8 @@ HOMEOSAPP.createChartData = function(data, type, typeData) {
                 value = config.divideBy10 ? item.AverageValue / 10000 : item.AverageValue;
             } else if(zone == 'EC'){
                 value = config.divideBy10 ? item.AverageValue / 1000 : item.AverageValue;
+            } else if(zone == 'QN' || zone == 'VN') {
+                value = config.divideBy10 ? item.AverageValue : item.AverageValue;
             } else {
                 value = config.divideBy10 ? item.AverageValue / 10 : item.AverageValue;
             }
