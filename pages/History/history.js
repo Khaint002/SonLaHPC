@@ -1024,31 +1024,31 @@ function WarningRain(value) {
 }
 function WarningWaterLevel(value, unit) {
     var energy = "<b><font>" + value + "</font></b>";
-    if (value >= 0 && value < 5) energy = "<b><font color='#1a6985'>" + value + " "+unit+"</font></b>";
-    if (value >= 5 && value < 10) energy = "<b><font color='#0f3c4c'>" + value + " "+unit+"</font></b>";
-    if (value >= 10 && value < 20) energy = "<b><font color='#0084FF'>" + value + " "+unit+"</font></b>";
-    if (value >= 20 && value < 50) energy = "<b><font color='#6766ff'>" + value + " "+unit+"</font></b>";
-    if (value >= 50 && value < 100) energy = "<b><font color='#cc6600'>" + value + " "+unit+"</font></b>";
-    if (value >= 100 && value < 150) energy = "<b><font color='#006600'>" + value + " "+unit+"</font></b>";
-    if (value >= 150 && value < 200) energy = "<b><font color='#00FFFF'>" + value + " "+unit+"</font></b>";
-    if (value >= 200 && value < 300) energy = "<b><font color='#1a6985'>" + value + " "+unit+"</font></b>";
-    if (value >= 300 && value < 400) energy = "<b><font color='#0f3c4c'>" + value + " "+unit+"</font></b>";
-    if (value >= 400) energy = "<b><font color='#A00BA0'>" + value + " "+unit+"</font></b>";
+    if (value >= 0 && value < 5) energy = "<b><font color='#1a6985'>" + value + ""+unit+"</font></b>";
+    if (value >= 5 && value < 10) energy = "<b><font color='#0f3c4c'>" + value + ""+unit+"</font></b>";
+    if (value >= 10 && value < 20) energy = "<b><font color='#0084FF'>" + value + ""+unit+"</font></b>";
+    if (value >= 20 && value < 50) energy = "<b><font color='#6766ff'>" + value + ""+unit+"</font></b>";
+    if (value >= 50 && value < 100) energy = "<b><font color='#cc6600'>" + value + ""+unit+"</font></b>";
+    if (value >= 100 && value < 150) energy = "<b><font color='#006600'>" + value + ""+unit+"</font></b>";
+    if (value >= 150 && value < 200) energy = "<b><font color='#00FFFF'>" + value + ""+unit+"</font></b>";
+    if (value >= 200 && value < 300) energy = "<b><font color='#1a6985'>" + value + ""+unit+"</font></b>";
+    if (value >= 300 && value < 400) energy = "<b><font color='#0f3c4c'>" + value + ""+unit+"</font></b>";
+    if (value >= 400) energy = "<b><font color='#A00BA0'>" + value + ""+unit+"</font></b>";
     
     return energy;
 }
 function WarningQN(value, unit) {
     var energy = "<b><font>" + value + "</font></b>";
-    if (value >= 0 && value < 100) energy = "<b><font color='#1a6985'>" + value + " "+unit+"</font></b>";
-    if (value >= 100 && value < 300) energy = "<b><font color='#0f3c4c'>" + value + " "+unit+"</font></b>";
-    if (value >= 300 && value < 600) energy = "<b><font color='#0084FF'>" + value + " "+unit+"</font></b>";
-    if (value >= 600 && value < 1000) energy = "<b><font color='#6766ff'>" + value + " "+unit+"</font></b>";
-    if (value >= 1000 && value < 1500) energy = "<b><font color='#cc6600'>" + value + " "+unit+"</font></b>";
-    if (value >= 1500 && value < 2000) energy = "<b><font color='#006600'>" + value + " "+unit+"</font></b>";
-    if (value >= 2000 && value < 2500) energy = "<b><font color='#00FFFF'>" + value + " "+unit+"</font></b>";
-    if (value >= 2500 && value < 3000) energy = "<b><font color='#1a6985'>" + value + " "+unit+"</font></b>";
-    if (value >= 3000 && value < 3500) energy = "<b><font color='#0f3c4c'>" + value + " "+unit+"</font></b>";
-    if (value >= 3500) energy = "<b><font color='#A00BA0'>" + value + " "+unit+"</font></b>";
+    if (value >= 0 && value < 100) energy = "<b><font color='#1a6985'>" + value + ""+unit+"</font></b>";
+    if (value >= 100 && value < 300) energy = "<b><font color='#0f3c4c'>" + value + ""+unit+"</font></b>";
+    if (value >= 300 && value < 600) energy = "<b><font color='#0084FF'>" + value + ""+unit+"</font></b>";
+    if (value >= 600 && value < 1000) energy = "<b><font color='#6766ff'>" + value + ""+unit+"</font></b>";
+    if (value >= 1000 && value < 1500) energy = "<b><font color='#cc6600'>" + value + ""+unit+"</font></b>";
+    if (value >= 1500 && value < 2000) energy = "<b><font color='#006600'>" + value + ""+unit+"</font></b>";
+    if (value >= 2000 && value < 2500) energy = "<b><font color='#00FFFF'>" + value + ""+unit+"</font></b>";
+    if (value >= 2500 && value < 3000) energy = "<b><font color='#1a6985'>" + value + ""+unit+"</font></b>";
+    if (value >= 3000 && value < 3500) energy = "<b><font color='#0f3c4c'>" + value + ""+unit+"</font></b>";
+    if (value >= 3500) energy = "<b><font color='#A00BA0'>" + value + ""+unit+"</font></b>";
     
     return energy;
 }
