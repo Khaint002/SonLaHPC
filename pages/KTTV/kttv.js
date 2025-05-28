@@ -297,11 +297,11 @@ function changeDataHomePage(data) {
                 break;
             case "QN":
                 checkRD = true;
-                updateText("QN", (ZONE_VALUE /10).toFixed(2) + " m³/s");
+                updateText("QN", (ZONE_VALUE).toFixed(2) + " m³/s");
                 break;
             case "VN":
                 checkRD = true;
-                updateText("VN", (ZONE_VALUE /10).toFixed(2) + " m/s");
+                updateText("VN", (ZONE_VALUE).toFixed(2) + " m/s");
                 break;
         }
     });

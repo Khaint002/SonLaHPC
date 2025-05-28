@@ -263,7 +263,7 @@ function rotateProperties() {
 
     const SLProps = [
         { prop: 'RD', unit: ' mm' },
-        { prop: 'RN', unit: ' cm' },
+        { prop: 'RN', unit: ' m' },
         { prop: 'QN', unit: ' m³/s' },
         { prop: 'VN', unit: ' m/s' }
     ];
@@ -490,10 +490,10 @@ function getDisplayValue(item, type) {
                 return item.ZONE_VALUE / 10 + ZONE_UNIT_TD;
             }
         case "NMLLTD":
-            if(ZONE_PROPERTY_NNS === "VN") {
-                return item.ZONE_VALUE + ZONE_UNIT_SL;
-            } else {
+            if(ZONE_PROPERTY_SL === "RD") {
                 return item.ZONE_VALUE / 10 + ZONE_UNIT_SL;
+            } else {
+                return item.ZONE_VALUE + ZONE_UNIT_SL;
             }
         default:
             return "-";
@@ -634,7 +634,8 @@ function addMarkers(locations, mapContainerId) {
             iconAnchor: [20, 40],
             popupAnchor: [0, -40]
         });
-
+        console.log(loc);
+        
         const marker = L.marker(loc.coords, { icon, customData: loc }).addTo(map);
         marker.options.customData = {
             type: loc.type, // Loại của trạm (NAAM, N, M, v.v.)
@@ -806,8 +807,8 @@ function generatePopupValueHTML(loc) {
             break;
         case "NMLLTD":
             extraContent = `
-                <tr><td>Mực nước: ${loc.RN ?? 0} cm</td></tr>
-                <tr><td><b>Lượng mưa: ${loc.RD ?? 0} tr.m³</b></td></tr>
+                <tr><td>Mực nước: ${loc.RN ?? 0} m</td></tr>
+                <tr><td><b>Lượng mưa: ${loc.RD ?? 0} mm</b></td></tr>
                 <tr><td><b>Lưu lượng nước: ${loc.QN ?? 0} m³/s</b></td></tr>
                 <tr><td><b>Tốc độ dòng chảy: ${loc.VN ?? 0} m³/s</b></td></tr>
             `;
@@ -842,7 +843,6 @@ function generatePopupValueHTML(loc) {
 }
 
 async function addDataLocation(item, tooltip, itemW) {
-    itemW
     const itemLocation = {
         name: item.WORKSTATION_NAME+'-'+item.WORKSTATION_ID,
         coords: [item.LONGITUDE, item.LATITUDE],
