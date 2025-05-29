@@ -268,7 +268,7 @@ function changeDataHomePage(data) {
             case "RN":
                 checkRD = true;
                 if(itemw.workstationType == 'TD'){
-                    updateText("RN", ZONE_VALUE / 1000 + " m");
+                    updateText("RN", ZONE_VALUE / 100 + " m");
                 } else if(itemw.workstationType == 'NMLLTD'){
                     updateText("RN", ZONE_VALUE / 100 + " m");
                 } else {
@@ -287,15 +287,15 @@ function changeDataHomePage(data) {
                 break;
             case "TN":
                 checkRD = true;
-                updateText("TN", (ZONE_VALUE ).toFixed(2) + " tr.m³");
+                updateText("TN", (ZONE_VALUE / 100).toFixed(2) + " tr.m³");
                 break;
             case "QV":
                 checkRD = true;
-                updateText("QV", (ZONE_VALUE ).toFixed(2) + " m³/s");
+                updateText("QV", (ZONE_VALUE / 100).toFixed(2) + " m³/s");
                 break;
             case "QR":
                 checkRD = true;
-                updateText("QR", (ZONE_VALUE ).toFixed(2) + " m³/s");
+                updateText("QR", (ZONE_VALUE / 100).toFixed(2) + " m³/s");
                 break;
             case "QN":
                 checkRD = true;
