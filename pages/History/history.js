@@ -928,15 +928,15 @@ function updatePopupData(code, newZoneData) {
                 mergedData.lastTimeRD = HOMEOSAPP.formatDateTime(newZoneData.lastTimeRD);
             }
             if(newZoneData.QN){
-                $(".marker-label-"+code).html(WarningQN(parseValue(newZoneData.QN/100), "m³/s"))
+                $(".marker-label-"+code).html(WarningQN(parseValue(newZoneData.QN)/100, "m³/s"))
                 $(".marker-"+code+" .marker-pin polygon").attr("fill", "red");
                 $(".marker-"+code+" .marker-pin polygon").attr("stroke", "red");
                 $(".marker-"+code+" .mePin-wrapper .mePin-child b").css("color", "red");
             }
-            mergedData.RN = parseValue(newZoneData.RN/100);
+            mergedData.RN = parseValue(newZoneData.RN)/100;
             mergedData.RD = parseValue(newZoneData.RD);
-            mergedData.QN = parseValue(newZoneData.QN/100);
-            mergedData.VN = parseValue(newZoneData.VN/100);
+            mergedData.QN = parseValue(newZoneData.QN)/100;
+            mergedData.VN = parseValue(newZoneData.VN)/100;
             break;
         default:
             console.warn(`Không biết cách update cho type: ${oldData.type}`);
