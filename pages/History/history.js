@@ -924,7 +924,7 @@ function updatePopupData(code, newZoneData) {
             mergedData.QR = parseValue(newZoneData.QR);
             break;
         case "NMLLTD":
-            if(newZoneData.RN){
+            if(newZoneData.RD){
                 mergedData.lastTimeRD = HOMEOSAPP.formatDateTime(newZoneData.lastTimeRD);
             }
             if(newZoneData.QN){
