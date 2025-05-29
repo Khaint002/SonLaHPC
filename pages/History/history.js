@@ -487,13 +487,13 @@ function getDisplayValue(item, type) {
             if(ZONE_PROPERTY_NNS === "RN") {
                 return item.ZONE_VALUE + ZONE_UNIT_TD;
             } else {
-                return item.ZONE_VALUE / 10 + ZONE_UNIT_TD;
+                return item.ZONE_VALUE + ZONE_UNIT_TD;
             }
         case "NMLLTD":
             if(ZONE_PROPERTY_SL === "RD") {
                 return item.ZONE_VALUE / 10 + ZONE_UNIT_SL;
             } else {
-                return item.ZONE_VALUE + ZONE_UNIT_SL;
+                return item.ZONE_VALUE / 100 + ZONE_UNIT_SL;
             }
         default:
             return "-";
