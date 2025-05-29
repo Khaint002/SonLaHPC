@@ -913,8 +913,8 @@ function updatePopupData(code, newZoneData) {
             mergedData.EC = parseValue(newZoneData.EC);
             break;
         case "TD":
-            if(newZoneData.RN){
-                $(".marker-label-"+code).html(WarningWaterLevel((parseValue(newZoneData.RN)/1000).toFixed(2), "m"));
+            if(newZoneData.QV){
+                $(".marker-label-"+code).html(WarningQN(parseValue(newZoneData.QV), "m³/s"));
                 $(".marker-"+code+" .marker-pin rect").attr("fill", "#6c3483");
                 $(".marker-"+code+" .marker-pin rect").attr("stroke", "#6c3483");
             }
