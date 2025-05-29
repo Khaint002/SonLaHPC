@@ -811,7 +811,7 @@ function generatePopupValueHTML(loc) {
         case "NMLLTD":
             extraContent = `
                 <tr><td>Mực nước: ${loc.RN ?? 0} m</td></tr>
-                <tr><td><b>Lượng mưa: ${loc.RD ?? 0} mm</b></td></tr>
+                <tr><td><b>Lượng mưa: ${loc.RD ?? 0} mm ${lastTimeRain}</b></td></tr>
                 <tr><td><b>Lưu lượng nước: ${loc.QN ?? 0} m³/s</b></td></tr>
                 <tr><td><b>Tốc độ dòng chảy: ${loc.VN ?? 0} m/s</b></td></tr>
             `;
