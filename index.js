@@ -527,7 +527,7 @@ HOMEOSAPP.createChartData = function(data, type, typeData) {
             } else if(zone == 'EC'){
                 value = config.divideBy10 ? item.AverageValue / 1000 : item.AverageValue;
             } else if(zone == 'QN' || zone == 'VN') {
-                value = config.divideBy10 ? item.AverageValue : item.AverageValue;
+                value = config.divideBy10 ? item.AverageValue / 100 : item.AverageValue;
             } else {
                 value = config.divideBy10 ? item.AverageValue / 10 : item.AverageValue;
             }
