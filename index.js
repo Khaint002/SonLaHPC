@@ -308,7 +308,6 @@ HOMEOSAPP.getNewData = function (workstation, c, url) {
             success: function (msg) {
                 try {
                     let state = JSON.parse(msg);
-                    console.log(state.D);
                     resolve(state); // Trả về dữ liệu khi thành công
                 } catch (error) {
                     reject(error); // Bắt lỗi nếu JSON parse thất bại

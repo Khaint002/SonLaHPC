@@ -307,7 +307,6 @@ function changeDataHomePage(data) {
                 break;
         }
     });
-    console.log('chạy');
     
     if (!checkRT) setRangeValue(0);
     if (!checkRD) handleNoRainVisual();
