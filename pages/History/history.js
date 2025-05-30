@@ -283,7 +283,6 @@ async function updateWorkstationUI(station, data) {
         if (button) button.style.backgroundColor = "#da4a58";
         return;
     }
-    console.log(station, data, );
     
     let prop = 'RD';
     if (station.workstationType === "NAAM") prop = ZONE_PROPERTY;
@@ -634,7 +633,6 @@ function addMarkers(locations, mapContainerId) {
             iconAnchor: [20, 40],
             popupAnchor: [0, -40]
         });
-        console.log(loc);
         
         const marker = L.marker(loc.coords, { icon, customData: loc }).addTo(map);
         marker.options.customData = {
