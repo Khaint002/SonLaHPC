@@ -740,7 +740,7 @@ function generatePopupHTML(name, code, type, item, coords) {
     const itemStr = JSON.stringify(item).replace(/"/g, '&quot;');
     const itemcoords = JSON.stringify(coords).replace(/"/g, '&quot;');
     return `
-        <table style="width:400px;">
+        <table style="width:300px;">
             <tbody>
                 <tr style="height:25px">
                     <td>
@@ -757,14 +757,16 @@ function generatePopupHTML(name, code, type, item, coords) {
                     <td>Hoạt động cuối lúc: <span id="popup-${code}-LastTime">@LASTTIME</span></td>
                 </tr>
                 <tr style="height:22px">
-                    <div class="d-flex justify-content-center">
-                        <div class="w-50" style="padding-right: 5px">
-                            <button id="tooltip" class="btn btn-warning w-100" style="margin-top: 20px; background-color: #f39c12;border: solid 1px #f39c12; width: 75%; height: 35px; color: #fff; padding: 3px 10px;" onclick="handleItemClick(${itemStr});">Xem chi tiết</button>
+                    <td>
+                        <div class="d-flex justify-content-center">
+                            <div class="w-50" style="padding-right: 5px">
+                                <button id="tooltip" class="btn btn-warning w-100" style="margin-top: 20px; background-color: #f39c12;border: solid 1px #f39c12; width: 75%; height: 35px; color: #fff; padding: 3px 10px;" onclick="handleItemClick(${itemStr});">Xem chi tiết</button>
+                            </div>
+                            <div class="w-50" style="padding-left: 5px">
+                                <button class="btn btn-warning w-100" style="margin-top: 20px; background-color:rgb(35, 113, 168);border: solid 1px rgb(35, 113, 168); width: 75%; height: 35px; color: #fff; padding: 3px 10px;" onclick="ClickGGMap(${itemcoords});">Vị trí</button>
+                            </div>
                         </div>
-                        <div class="w-50" style="padding-left: 5px">
-                            <button class="btn btn-warning w-100" style="margin-top: 20px; background-color:rgb(35, 113, 168);border: solid 1px rgb(35, 113, 168); width: 75%; height: 35px; color: #fff; padding: 3px 10px;" onclick="ClickGGMap(${itemcoords});">Vị trí</button>
-                        </div>
-                    </div>
+                    </td>
                 </tr>
             </tbody>
         </table>
@@ -829,7 +831,7 @@ function generatePopupValueHTML(loc) {
     const itemStr = JSON.stringify(loc.item).replace(/"/g, '&quot;');
     const itemcoords = JSON.stringify(loc.coords).replace(/"/g, '&quot;');
     return `
-        <table style="width:400px;">
+        <table style="width:300px;">
             <tbody>
                 <tr style="height:25px">
                     <td>
@@ -846,14 +848,16 @@ function generatePopupValueHTML(loc) {
                     <td>Hoạt động cuối lúc: <span id="popup-${loc.code}-LastTime">${HOMEOSAPP.formatDateTime(loc.lastTime)}</span></td>
                 </tr>
                 <tr style="height:22px">
-                    <div class="d-flex justify-content-center">
-                        <div class="w-50" style="padding-right: 5px">
-                            <button id="tooltip" class="btn btn-warning w-100" style="margin-top: 20px; background-color: #f39c12;border: solid 1px #f39c12; width: 75%; height: 35px; color: #fff; padding: 3px 10px;" onclick="handleItemClick(${itemStr});">Xem chi tiết</button>
+                    <td>
+                        <div class="d-flex justify-content-center">
+                            <div class="w-50" style="padding-right: 5px">
+                                <button id="tooltip" class="btn btn-warning w-100" style="margin-top: 20px; background-color: #f39c12;border: solid 1px #f39c12; width: 75%; height: 35px; color: #fff; padding: 3px 10px;" onclick="handleItemClick(${itemStr});">Xem chi tiết</button>
+                            </div>
+                            <div class="w-50" style="padding-left: 5px">
+                                <button class="btn btn-warning w-100" style="margin-top: 20px; background-color:rgb(35, 113, 168);border: solid 1px rgb(35, 113, 168); width: 75%; height: 35px; color: #fff; padding: 3px 10px;" onclick="ClickGGMap(${itemcoords});">Vị trí</button>
+                            </div>
                         </div>
-                        <div class="w-50" style="padding-left: 5px">
-                            <button class="btn btn-warning w-100" style="margin-top: 20px; background-color:rgb(35, 113, 168);border: solid 1px rgb(35, 113, 168); width: 75%; height: 35px; color: #fff; padding: 3px 10px;" onclick="ClickGGMap(${itemcoords});">Vị trí</button>
-                        </div>
-                    </div>
+                    </td>
                 </tr>
             </tbody>
         </table>
