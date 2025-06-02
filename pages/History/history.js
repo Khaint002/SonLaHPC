@@ -639,7 +639,8 @@ function addMarkers(locations, mapContainerId) {
             type: loc.type, // Loại của trạm (NAAM, N, M, v.v.)
             name: loc.name,
             code: loc.code,
-            item: loc.item
+            item: loc.item,
+            coords: loc.coords
         };
         marker.on('click', function (e) {
             map.setView(loc.coords, 8); // Hoặc dùng map.flyTo(...) nếu muốn hiệu ứng mượt
@@ -707,7 +708,7 @@ var defaultValues = {
     VN: 'm/s', 
 };
 
-function generatePopupHTML(name, code, type, item) {
+function generatePopupHTML(name, code, type, item, coords) {
     const fields = getFieldsByType(type);
 
     let dynamicRows = '';
@@ -737,6 +738,7 @@ function generatePopupHTML(name, code, type, item) {
         `;
     });
     const itemStr = JSON.stringify(item).replace(/"/g, '&quot;');
+    const itemcoords = JSON.stringify(coords).replace(/"/g, '&quot;');
     return `
         <table style="width:400px;">
             <tbody>
@@ -755,7 +757,14 @@ function generatePopupHTML(name, code, type, item) {
                     <td>Hoạt động cuối lúc: <span id="popup-${code}-LastTime">@LASTTIME</span></td>
                 </tr>
                 <tr style="height:22px">
-                    <td><div><button id="tooltip" class="btn btn-warning" style="margin-top: 20px; background-color: #f39c12;border: solid 1px #f39c12; width: 75%; height: 35px; color: #fff; padding: 3px 10px;" onclick="handleItemClick(${itemStr});">Xem chi tiết</button></div></td>
+                    <div class="d-flex justify-content-center">
+                        <div class="w-50" style="padding-right: 5px">
+                            <button id="tooltip" class="btn btn-warning w-100" style="margin-top: 20px; background-color: #f39c12;border: solid 1px #f39c12; width: 75%; height: 35px; color: #fff; padding: 3px 10px;" onclick="handleItemClick(${itemStr});">Xem chi tiết</button>
+                        </div>
+                        <div class="w-50" style="padding-left: 5px">
+                            <button class="btn btn-warning w-100" style="margin-top: 20px; background-color:rgb(35, 113, 168);border: solid 1px rgb(35, 113, 168); width: 75%; height: 35px; color: #fff; padding: 3px 10px;" onclick="ClickGGMap(${itemcoords});">Vị trí</button>
+                        </div>
+                    </div>
                 </tr>
             </tbody>
         </table>
@@ -818,6 +827,7 @@ function generatePopupValueHTML(loc) {
             extraContent = `<tr><td>Không có dữ liệu</td></tr>`;
     }
     const itemStr = JSON.stringify(loc.item).replace(/"/g, '&quot;');
+    const itemcoords = JSON.stringify(loc.coords).replace(/"/g, '&quot;');
     return `
         <table style="width:400px;">
             <tbody>
@@ -836,11 +846,23 @@ function generatePopupValueHTML(loc) {
                     <td>Hoạt động cuối lúc: <span id="popup-${loc.code}-LastTime">${HOMEOSAPP.formatDateTime(loc.lastTime)}</span></td>
                 </tr>
                 <tr style="height:22px">
-                    <td><div><button id="tooltip" class="btn btn-warning" style="margin-top: 20px; background-color: #f39c12;border: solid 1px #f39c12; width: 75%; height: 35px; color: #fff; padding: 3px 10px;" onclick="handleItemClick(${itemStr});">Xem chi tiết</button></div></td>
+                    <div class="d-flex justify-content-center">
+                        <div class="w-50" style="padding-right: 5px">
+                            <button id="tooltip" class="btn btn-warning w-100" style="margin-top: 20px; background-color: #f39c12;border: solid 1px #f39c12; width: 75%; height: 35px; color: #fff; padding: 3px 10px;" onclick="handleItemClick(${itemStr});">Xem chi tiết</button>
+                        </div>
+                        <div class="w-50" style="padding-left: 5px">
+                            <button class="btn btn-warning w-100" style="margin-top: 20px; background-color:rgb(35, 113, 168);border: solid 1px rgb(35, 113, 168); width: 75%; height: 35px; color: #fff; padding: 3px 10px;" onclick="ClickGGMap(${itemcoords});">Vị trí</button>
+                        </div>
+                    </div>
                 </tr>
             </tbody>
         </table>
     `;
+}
+
+function ClickGGMap(coords) {
+    console.log(coords);
+    window.location.href = "https://www.google.com/maps/place/"+ coords[0] +","+ coords[1]
 }
 
 async function addDataLocation(item, tooltip, itemW) {
@@ -850,7 +872,7 @@ async function addDataLocation(item, tooltip, itemW) {
         type: item.TEMPLATE_TOOLTIP,
         code: item.WORKSTATION_ID,
         item: itemW,
-        popup: generatePopupHTML(item.WORKSTATION_NAME, item.WORKSTATION_ID, item.TEMPLATE_TOOLTIP, itemW)
+        popup: generatePopupHTML(item.WORKSTATION_NAME, item.WORKSTATION_ID, item.TEMPLATE_TOOLTIP, itemW, [item.LONGITUDE, item.LATITUDE])
     }
     locations.push(itemLocation);
 }
