@@ -757,5 +757,9 @@ function sha1Encode(message) {
 
 $("#share-workStation").click(function () {
     const item = JSON.parse(localStorage.getItem("itemHistory"));
-    window.shareWorkStation("Trạm quan trắc "+ item.NameWorkStation, 'https://central.homeos.vn/images/MiniAppLoadingScreen.png', item.CodeWorkStation);
+    if(window.shareWorkStation){
+        window.shareWorkStation("Trạm quan trắc "+ item.NameWorkStation, 'https://central.homeos.vn/images/MiniAppLoadingScreen.png', item.CodeWorkStation);
+    } else {
+
+    }
 });
