@@ -392,7 +392,7 @@ function handleNoRainVisual() {
 $(".homepage-Pre-pickApp").click(function () {
     HOMEOSAPP.stopInterval();
     stopIntervalMonitoring();
-    $("#content-block").load("https://son-la-hpc.vercel.app/pages/menu/menu.html");
+    $("#content-block").load("https://sonlahpc.hymetco.com/singlepage/SONLAHPC/pages/menu/menu.html");
 });
 
 $("#share-qrcode-workstation").click(function () {
@@ -433,7 +433,7 @@ $("#BackCodeQR").click(function () {
 
 $(".ScanQRNext").click(function () {
     stopIntervalMonitoring()
-    $("#content-block").load("https://son-la-hpc.vercel.app/pages/History/history.html");
+    $("#content-block").load("https://sonlahpc.hymetco.com/singlepage/SONLAHPC/pages/History/history.html");
 });
 
 $("#button-list-ngay").click(function () {

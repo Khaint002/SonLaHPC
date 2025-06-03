@@ -37,10 +37,10 @@ setTimeout(() => {
     if(window.workstationID){
         HOMEOSAPP.application = "KTTV";
         HOMEOSAPP.checkTabHistory = 1;
-        $("#content-block").load("https://son-la-hpc.vercel.app/pages/ScanQR/scanQR.html");
+        $("#content-block").load("https://sonlahpc.hymetco.com/singlepage/SONLAHPC/pages/ScanQR/scanQR.html");
     } else {
         localStorage.setItem('dataHistory', JSON.stringify(historyItems));
-        $("#content-block").load("https://son-la-hpc.vercel.app/pages/menu/menu.html");
+        $("#content-block").load("https://sonlahpc.hymetco.com/singlepage/SONLAHPC/pages/menu/menu.html");
     }
 }, 2000);
 
